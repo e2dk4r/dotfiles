@@ -1,0 +1,13 @@
+[core]
+	editor = vim
+[user]
+	name = e2dk4r
+	email = esadkatmer@hotmail.com
+#	email = 43293320+e2dk4r@users.noreply.github.com
+#	signingkey = B58BA32EE1C689C3
+[commit]
+	gpgsign = true
+[hub]
+	protocol = ssh
+[gpg]
+	program = C:\\Users\\e2dk4r\\scoop\\apps\\gpg\\current\\bin\\gpg.exe

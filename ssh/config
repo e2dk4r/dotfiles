@@ -1,0 +1,4 @@
+Host github.com
+  User e2dk4r
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/20201007-github-ed25519

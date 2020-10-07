@@ -1,0 +1,4 @@
+*.secret
+
+ssh/*
+!ssh/config

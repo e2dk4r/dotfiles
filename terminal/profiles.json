@@ -1,0 +1,29 @@
+{
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "defaultProfile": "{7f9a6b31-0a06-42ec-96ba-d86b0d1119a5}",
+    "profiles":
+    [
+        {
+            "guid": "{7f9a6b31-0a06-42ec-96ba-d86b0d1119a5}",
+            "name": "pwsh",
+            "commandline": "pwsh.exe",
+            "startingDirectory": "%USERPROFILE%",
+        }
+    ],
+
+    "schemes": [],
+    "keybindings":
+    [
+        { "command": "scrollDownPage", "keys": ["shift+pgdn"] },
+        { "command": "scrollUpPage", "keys": ["shift+pgup"] },
+        { "command": "switchToTab0", "keys": ["alt+1"] },
+        { "command": "switchToTab1", "keys": ["alt+2"] },
+        { "command": "switchToTab2", "keys": ["alt+3"] },
+        { "command": "switchToTab3", "keys": ["alt+4"] },
+        { "command": "switchToTab4", "keys": ["alt+5"] },
+        { "command": "switchToTab5", "keys": ["alt+6"] },
+        { "command": "switchToTab6", "keys": ["alt+7"] },
+        { "command": "switchToTab7", "keys": ["alt+8"] },
+        { "command": "switchToTab8", "keys": ["alt+9"] }
+    ]
+}

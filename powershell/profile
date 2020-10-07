@@ -1,0 +1,14 @@
+﻿# Module
+try { $null = Get-Command pshazz -ea stop; pshazz init 'default' } catch { }
+
+# Alias
+Set-Alias -Name vi  -Value nvim
+Set-Alias -Name vim -Value nvim
+
+Set-Alias -Name cat -Value bat
+
+# Environment
+$ENV:EDITOR = 'nvim'
+#$ENV:SHELL  = 'pwsh'
+
+# vim: ft=ps1
