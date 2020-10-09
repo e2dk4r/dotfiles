@@ -45,6 +45,9 @@ doskey rm=del /s /f /q $*
 doskey kill=taskkill /f /t /im $1
 doskey find=ag --silent -g $*
 doskey pwd=echo %CD%
+doskey ..=cd ..
+doskey ...=cd ..\..
+doskey ....=cd ..\..\..
 
 doskey poweroff=shutdown /s /f /t 0
 doskey reboot=shutdown /r /f /t 0
