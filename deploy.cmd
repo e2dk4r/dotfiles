@@ -29,5 +29,8 @@ rem powershell core
 mklink "%HOME%\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" "%CURDIR%\powershell\profile"
 mklink /j "%HOME%\Documents\PowerShell\Modules" "%CURDIR%\powershell\modules"
 
-@rem windows terminal
+rem windows terminal
 mklink "%HOME%\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\profiles.json" "%CURDIR%\terminal\profiles.json"
+
+rem visual studio
+xcopy "%CURDIR%\visualstudio\csharp\*.snippet" "%USERPROFILE%\Documents\Visual Studio 2019\Code Snippets\Visual C#\My Code Snippets"
