@@ -1,0 +1,30 @@
+#!/bin/sh -e
+
+STORAGE_HOT=/tmp/vms
+HOSTNAME=voidlinux
+DISK=$STORAGE_HOT/$HOSTNAME.qcow2
+CPU=8
+MEMORY=8G
+
+KERNEL=$HOSTNAME-bzImage
+CMDLINE='root=/dev/vda1 mitigations=off noapic notsc tsc=unstable'
+# noacpi acpi=off
+
+exec qemu-system-x86_64 \
+  -nodefaults \
+  -daemonize \
+  -display gtk,gl=on \
+  -device virtio-vga-gl,xres=1920,yres=1080 \
+  -enable-kvm \
+  -cpu host \
+  -smp $CPU \
+  -m $MEMORY \
+  -drive aio=io_uring,file=$DISK,if=virtio \
+  -nic user,model=virtio-net-pci \
+  -device virtio-rng \
+  -audiodev pipewire,id=snd0 \
+  -device ac97,audiodev=snd0 \
+  -usbdevice tablet \
+  -name "$HOSTNAME" \
+  -kernel "$KERNEL" -append "$CMDLINE" \
+  "$@" 
