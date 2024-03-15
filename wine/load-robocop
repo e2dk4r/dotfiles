@@ -1,0 +1,17 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='robocop.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$SAVE_PATH" ]; then
+  echo could not find Robocop Rouge City save file
+  exit 1
+fi
+
+tar xf "$SAVE_PATH" -C "$WINEHOME"
+
+echo "Robocop Rouge City save file loaded from \"$SAVE_PATH\""

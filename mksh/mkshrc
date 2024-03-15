@@ -1,0 +1,95 @@
+set -o vi
+
+# env
+export PATH="$HOME/.local/bin:${PATH#$HOME/.local/bin:}"
+export EDITOR=e
+
+uid=$(id -u)
+# xdg runtime dir, required for sway
+if [ ${#XDG_RUNTIME_DIR} -eq 0 ]; then
+  export XDG_RUNTIME_DIR=/tmp/runtime/$uid
+  if [ ! -d $XDG_RUNTIME_DIR ]; then
+    mkdir -p $XDG_RUNTIME_DIR
+    chmod 0700 $XDG_RUNTIME_DIR
+  fi
+fi
+
+# cache
+if [ ! -d /tmp/cache/$uid ]; then
+  mkdir -p /tmp/cache/$uid
+fi
+if [ $(readlink $HOME/.cache) != /tmp/cache/$uid ]; then
+  ln -sf /tmp/cache/$uid $HOME/.cache
+fi
+
+# go
+export GOCACHE=/tmp/go/build
+export GOMODCACHE=/tmp/go/mod
+
+# rust's cargo
+if [ ${#CARGO_HOME} -eq 0 ]; then
+  export CARGO_HOME=/tmp/cargo
+fi
+
+# gpg
+if [[ ${#GPG_TTY} -eq 0 ]]; then
+  export GPG_TTY=$(tty)
+fi
+
+# xdg user
+export XDG_DESKTOP_DIR=$HOME
+export XDG_DOWNLOAD_DIR=/tmp/download
+export XDG_TEMPLATES_DIR=$HOME
+export XDG_PUBLICSHARE_DIR=/tmp/download
+export XDG_DOCUMENTS_DIR=$HOME/document
+export XDG_MUSIC_DIR=$HOME/music
+export XDG_PICTURES_DIR=$HOME/pics
+export XDG_VIDEOS_DIR=$HOME/video
+
+# general purpose
+mkdir -p /tmp/download
+mkdir -p /tmp/vms
+mkdir -p /tmp/music
+mkdir -p /tmp/project
+
+# alias
+alias l="ls '--format=long' --almost-all --human-readable --group-directories-first '--color=auto' $*"
+alias n='nnn -H'
+alias t='rtorrent'
+alias cal='cal -m'
+alias ffmpeg='ffmpeg -hide_banner'
+alias ffprobe='ffprobe -hide_banner'
+
+# login manager
+if [ "$(tty)" = '/dev/tty1' ]; then
+  # firefox
+  export MOZ_NO_REMOTE=1
+  export MOZ_ENABLE_WAYLAND=1
+  export MOZ_USE_XINPUT2=1
+
+  # qt
+  export QT_QPA_PLATFORM=wayland
+  export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+  
+  # java
+  export _JAVA_AWT_WM_NONREPARENTING=1
+
+  # mpv uses vulkan video decoding
+  # https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/docs/envvars.rst
+  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,shader_object,transfer_queue,video_decode
+
+  # wine
+  export WINEPREFIX=/tmp/gaming/wine
+  export WINEFSYNC=1
+  export WINEDEBUG='-all'
+  export DXVK_LOG_LEVEL=none
+  export VKD3D_DEBUG=none
+  mkdir -p $WINEPREFIX
+
+  # https://gitlab.freedesktop.org/wlroots/wlroots/-/raw/master/docs/env_vars.md
+  export WLR_RENDERER=vulkan
+
+  # dbus is required for pipewire
+  #echo "mksh: starting sway" >>/tmp/sway.log
+  exec dbus-launch --exit-with-session sway # >>/tmp/sway.log 2>&1
+fi

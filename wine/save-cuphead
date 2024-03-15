@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='cuphead.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/AppData/Roaming/Cuphead" ]; then
+  echo Cuphead save file not found
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - -C "$WINEHOME" 'AppData/Roaming/Cuphead' | zstd -19 > "$SAVE_PATH"
+
+echo "Cuphead saves backed into \"$SAVE_PATH\""

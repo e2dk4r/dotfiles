@@ -1,0 +1,3 @@
+#!/bin/sh
+test ! ${#1} -eq 0 && exec wpctl set-volume @DEFAULT_SINK@ $1
+exec wpctl get-volume @DEFAULT_SINK@ | cut -c 9-

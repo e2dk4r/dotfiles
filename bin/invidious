@@ -1,0 +1,168 @@
+#!/bin/sh
+
+# cf: domain/cdn-cgi/trace -> HTTP 200 !HTTP 302
+# country, cloudflare, domain
+instances='
+  #RO,0,invidious.flokinet.to
+\n DE,0,inv.oikei.net
+\n DE,0,iv.datura.network
+\n DE,1,invidious.lunar.icu
+\n DE,0,invidious.nerdvpn.de
+\n DE,1,invidious.einfachzocken.eu
+\n DE,1,yt.oelrichsgarcia.de
+\n DE,0,yt.cdaut.de
+\n DE,0,iv.melmac.space
+\n DE,0,yt.artemislena.eu
+\n DE,0,invidious.protokolla.fi
+\n DE,0,anontube.lvkaszus.pl
+\n DE,0,inv.seitan-ayoub.lol
+\n FR,0,invidious.privacydev.net
+'
+
+usage() {
+  echo "$0 [quality] <videoId|link>"
+  echo '  quality'
+  echo '    dash (default)'
+  echo '    hd720, hd'
+  echo '    medium, m'
+  echo '    small, s'
+}
+
+quality_option_ok() {
+  quality="$1"
+
+  if [ $quality = 'd' -o $quality = 'dash' ]; then echo 1; return; fi
+  if [ $quality = 'h' -o $quality = 'hd' -o $quality = 'hd720' ]; then echo 1; return; fi
+  if [ $quality = 'm' -o $quality = 'medium' ]; then echo 1; return; fi
+  if [ $quality = 's' -o $quality = 'small' ]; then echo 1; return; fi
+
+  echo 0
+}
+
+quality_option_itag() {
+  quality=$1
+
+  case $quality in
+    h*) echo 22; return ;;
+    m*) echo 18; return ;;
+    s*) echo 14; return ;;
+  esac
+
+  echo 0
+}
+
+is_url_ok() {
+  url="$1"
+  httpStatusCode=$(curl --silent --head --location --write-out '%{http_code}' --connect-timeout .3 "$url" | tail -n 1)
+
+  if [ "x$httpStatusCode" != "x200" ]; then
+    echo 0
+    return
+  fi
+
+  echo 1
+}
+
+if [ $# -eq 0 ]; then
+  usage
+  exit 1
+fi
+
+quality=h
+if [ $# -eq 2 ]; then
+  quality="$1"
+
+  if [ "$(quality_option_ok $quality)" -eq 0 ]; then
+    usage
+    exit 1
+  fi
+
+  shift
+fi
+
+videoId=$1
+if [ -z $videoId ]; then
+  usage
+  exit 1
+fi
+
+# cleanup url
+# https://www.youtube.com/watch?v=Csb-AFD58ww
+# https://www.youtube.com/embed/Csb-AFD58ww?ad
+# https://invidious/latest_version?id=OEctB0HOpZ8&itag=22
+videoId=${videoId##*/}
+videoId=${videoId##*v=}
+videoId=${videoId##*id=}
+videoId=${videoId%%%*}
+videoId=${videoId%%&*}
+videoId=${videoId%%\?*}
+if [ -z $videoId ]; then
+  echo videoId not found
+  exit 1
+fi
+echo videoId: $videoId
+
+echo $instances | while IFS=, read country cloudflare domain unused; do
+  country=${country##' '} # trim from start
+  domain=${domain%%' '} # trim from end
+
+  # pass comments
+  if [ -z ${country###*} ]; then
+    continue
+  fi
+
+  # do not continue sites that uses cloudflare
+  if [ ! $cloudflare = 0 ]; then
+    continue
+  fi
+
+  # use only DE countries
+  #if [ ! $country = 'DE' ]; then
+  #  continue
+  #fi
+  
+  echo instance: $domain
+
+  sub="https://$domain/api/v1/captions/$videoId?label=English"
+  itag=$(quality_option_itag $quality)
+  # if not dash video
+  if [ $itag -ne 0 ]; then
+    video="https://$domain/latest_version?id=$videoId&itag=$itag&local=true"
+    
+    if [ $(is_url_ok "$video") -eq 0 ]; then
+      echo failed get video!
+      continue
+    fi
+
+    exec mpv "$video" --sub-file="$sub"
+  fi
+
+  # if it is dash video
+  url="https://$domain/api/v1/videos/$videoId?fields=adaptiveFormats(url,type,bitrate)"
+  json=$(curl -gsSL "$url")
+  if [ ! $? -eq 0 ]; then
+    continue
+  fi
+
+  #echo $json > /tmp/$videoId.json
+
+  # type=video/webm video/mp4
+  video=$(echo $json | jq -r '.adaptiveFormats | sort_by(.bitrate | tonumber) | map(select(.type | startswith("video"))) | last | .url')
+  if [ ! $? -eq 0 ]; then
+    echo video not found.
+    continue
+  fi
+
+  # type=audio/webm audio/mp4
+  audio=$(echo $json | jq -r '.adaptiveFormats | sort_by(.bitrate | tonumber) | map(select(.type | startswith("audio"))) | last | .url')
+  if [ ! $? -eq 0 ]; then
+    echo audio not found.
+    continue
+  fi
+
+  if [ $(is_url_ok "$video") -eq 0 -a $(is_url_ok "$audio") -eq 0 ]; then
+    continue
+  fi
+
+  exec mpv "$video" --audio-file="$audio" --sub-file="$sub"
+done

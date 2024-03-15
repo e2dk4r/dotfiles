@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# 
+# INSTRUCTIONS
+#----------------------------------------------------------------
+# legend:
+#   $ - shell command
+#   > - command output
+#  
+# 1 - create qemu image
+#   $ qemu-img create android7.img 8G
+# 2 - install cm-x86_64-14.1-r5.iso from https://www.android-x86.org/releases/releasenote-cm-x86-14-1-r5.html
+#   $ echo '4c00748c451923bb27c52375e59bc0bfeed8f32f  cm-x86_64-14.1-r5.iso' | sha1sum -c
+#   > cm-x86_64-14.1-r5.iso: OK
+# 3 - install cm-x86_64-14.1-r5.iso on to qemu image
+#   $ ./android7 -cdrom cm-x86_64-14.1-r5.iso
+
+NAME=android7
+COMPRESSED_DISK=$HOME/vms/$NAME.img.zst
+DISK=/tmp/vms/$NAME.img
+HOSTNAME=$NAME
+CPU=16
+MEMORY=8G
+MONITOR_SOCK=/tmp/vms/$NAME-monitor.socket
+
+if [ ! -f $DISK ]; then
+  mkdir -p $(dirname $DISK)
+  zstd --decompress --threads 32 -o $DISK $COMPRESSED_DISK
+fi
+
+exec qemu-system-x86_64 \
+        -nodefaults \
+        -daemonize \
+        -enable-kvm \
+        -device virtio-vga-gl,xres=1920,yres=1080,max_hostmem=4G \
+        -display gtk,gl=on \
+        -cpu host \
+        -smp $CPU \
+        -m $MEMORY \
+        -drive aio=io_uring,file=$DISK,if=virtio \
+        -device virtio-net-pci,netdev=net0 \
+        -device vhost-vsock-pci,guest-cid=3 \
+        -netdev user,id=net0,hostfwd=tcp::4444-:5555 \
+        -audiodev pipewire,id=snd0 \
+        -device es1370,audiodev=snd0 \
+        -usbdevice tablet \
+        -name $NAME \
+        "$@" 

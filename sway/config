@@ -1,0 +1,210 @@
+set $mod   Mod1
+set $left  h
+set $down  j
+set $up    k
+set $right l
+
+set $font  CascadiaCode
+
+#set $term zutty -font $font -fontsize 20 -autoCopy -saveLines 0
+#set $term alacritty -o 'font.family=$font' -o 'font.size=16' -o 'scrolling.history=0' -o 'colors.primary.background=#000000' -o 'colors.primary.foreground=#f8f8f2'
+#set $term footclient -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
+set $term foot -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
+
+set $menuopts 'librewolf\nyuzu\ngimp\nwin11\nandroid7\nzathura'
+#set $menu printf $menuopts | kickoff --from-stdin
+#set $menu printf $menuopts | bemenu --fn '$font 16' -l 8 | xargs swaymsg exec --
+set $menu printf $menuopts | tofi | xargs swaymsg exec --
+
+default_border pixel 3
+hide_edge_borders smart
+focus_follows_mouse no
+
+# Output configuration
+#----------------------------------------------------------------
+output DP-1 mode 1920x1080@60.000Hz pos 1080 0 adaptive_sync on
+output DP-2 mode 1920x1080@60.000Hz pos 0 0 transform 90 adaptive_sync on
+output * bg #000000 solid_color
+
+# |------|
+# | DP-2 |
+# |      |---------|
+# |      |   DP-1  |
+# |------|---------|
+#       1080
+bindsym $mod+f1 output DP-1 pos 1080 0; output DP-2 transform 90
+
+# |----------|----------|
+# |   DP-2   |   DP-1   |
+# |----------|----------|
+#           1920
+bindsym $mod+f2 output DP-1 pos 1920 0; output DP-2 transform 0
+
+
+# Input configuration
+#----------------------------------------------------------------
+input "4152:5646:SteelSeries_SteelSeries_Apex_100_Gaming_Keyboard" {
+  xkb_layout gb
+}
+
+input "1386:865:Wacom_Intuos_Pro_L_Finger" {
+  natural_scroll enabled
+}
+
+input "1386:865:Wacom_Intuos_Pro_L_Pen" {
+  map_to_output DP-1
+}
+
+input "1386:856:Wacom_Intuos_Pro_L_Finger" {
+  natural_scroll enabled
+}
+
+input "1386:856:Wacom_Intuos_Pro_L_Pen" {
+  map_to_output DP-1
+}
+
+# Bindings
+#----------------------------------------------------------------
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+q kill
+
+# Start your launcher
+bindsym $mod+p exec $menu
+
+# Drag floating windows by holding down $mod and left mouse button.
+floating_modifier $mod normal
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Exit sway (logs you out of your Wayland session)
+bindsym $mod+Shift+q exec swaymsg exit
+
+# audio
+bindsym XF86AudioPlay        exec playerctl play-pause
+bindsym XF86AudioNext        exec playerctl next
+bindsym XF86AudioPrev        exec playerctl previous
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
+
+# move around
+bindsym $mod+$left  focus left
+bindsym $mod+$down  focus down
+bindsym $mod+$up    focus up
+bindsym $mod+$right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Workspaces:
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# horizontal split
+bindsym $mod+b splith
+# vertical split
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+m layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+
+# Last tab
+bindsym $mod+tab workspace back_and_forth
+
+# Resizing containers
+#----------------------------------------------------------------
+mode "resize" {
+# left will shrink the containers width
+# right will grow the containers width
+# up will shrink the containers height
+# down will grow the containers height
+  bindsym $left  resize grow   width  15px
+  bindsym $right resize shrink width  15px
+  bindsym $down  resize shrink height 15px
+  bindsym $up    resize grow   height 15px
+
+  # Return to default mode
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Status Bar
+#----------------------------------------------------------------
+bar {
+  mode invisible
+  position top
+  font $font
+
+  # When the status_command prints a new line to stdout, swaybar updates.
+  # The default just shows the current date and time.
+  #status_command while date +'%H:%M:%S'; do sleep 1; done
+  status_command /usr/local/bin/status
+
+  colors {
+    statusline #ffffff
+      background #000000
+      inactive_workspace #32323200 #32323200 #5c5c5c
+  }
+}
+
+# toggle status bar
+bindsym $mod+b bar mode toggle
+
+# screenshot
+bindsym Print     exec grim -l 0 - | wl-copy
+bindsym Alt+Print exec grim -l 0 -g "$(slurp)" - | wl-copy
+
+# idle
+#----------------------------------------------------------------
+exec swayidle -w \
+       timeout 300 'swaymsg output \* dpms off' \
+       resume 'swaymsg output \* dpms on'
+
+# screenshare: xdg-desktop-portal-wlr
+exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# start after first time (not including reload)
+#----------------------------------------------------------------
+exec_always gentoo-pipewire-launcher restart

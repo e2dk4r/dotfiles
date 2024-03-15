@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='tlou.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/Saved Games/The Last of Us Part I" ]; then
+  echo The Last of Us Part I save file not found
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - -C "$WINEHOME" --exclude log.txt --exclude user-data.txt 'Saved Games/The Last of Us Part I/' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
+
+echo "The Last of Us Part I saves backed to \"$SAVE_PATH\""

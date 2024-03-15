@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# presets
+# - alpha numeric
+# - *an
+# - *username
+# - alpha
+# - *a
+# - numeric
+# - *num
+# - *n
+# - hard
+# - *owasp
+# - *h
+preset=${2:-h}
+length=${1:-32}
+
+allowed='A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~'
+if [ $preset = 'an' -o $preset = 'alpha numeric' -o $preset = 'username' ]; then
+  allowed='A-Za-z0-9'
+elif [ $preset = 'a' -o $preset = 'alpha' ]; then
+  allowed='A-Za-z'
+elif [ $preset = 'n' -o $preset = 'num' -o $preset = 'n' ]; then
+  allowed='0-9'
+fi
+
+LC_ALL=C 
+#head /dev/random | tr -dc $allowed | head -c $length
+openssl rand 4096 | tr -dc $allowed | head -c $length

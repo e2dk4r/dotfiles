@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='cyberpunk2077.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/Saved Games/CD Projekt Red/Cyberpunk 2077" ]; then
+  echo Cyberpunk 2077 save file not found
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - -C "$WINEHOME" 'Saved Games/CD Projekt Red/Cyberpunk 2077' 'AppData/Local/CD Projekt Red/Cyberpunk 2077/UserSettings.json' | zstd -19 > "$SAVE_PATH"
+
+echo "Cyberpunk 2077 saves backed into \"$SAVE_PATH\""

@@ -1,0 +1,4 @@
+font=/usr/share/fonts/cascadia-code/CascadiaCode.ttf
+hint-font=false
+ascii-input=true
+late-keyboard-init=true
