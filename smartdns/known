@@ -1,0 +1,97 @@
+# google
+address /www.google.com/142.250.187.164
+# youtube
+address /youtube.com/172.217.169.174,216.58.213.110,216.58.212.14,172.217.169.110,142.251.140.46,172.217.17.142,142.251.140.14,172.217.17.110,142.250.184.142,216.58.214.142,216.58.212.46,172.217.17.238,142.250.187.142,142.251.140.78,142.251.141.46,142.250.187.174
+address /i.ytimg.com/142.250.184.150,142.251.140.86,142.251.140.54,216.58.212.22,172.217.169.118,172.217.20.86,142.251.141.54,172.217.169.214,172.217.17.118,142.251.140.22,172.217.169.182,142.250.187.150,172.217.17.246,172.217.17.150,216.58.213.118,142.250.187.182
+# pixeldrain
+address /pixeldrain.com/50.7.236.50,50.7.22.1
+
+# 4cat
+## US OG captcha
+address /4cat.ca/3.33.130.190
+## DE
+address /4get.lvkaszus.pl/130.61.218.99
+## DE
+address /4get.etenie.pl/130.162.40.225
+## DE
+address /4get.seitan-ayoub.lol/116.203.251.255
+## DE
+address /4get.hbubli.cc/81.169.168.51
+
+# searx
+## TR
+address /searx.kutay.dev/167.71.40.193
+## BG
+address /searx.be/128.140.94.57
+## DE
+address /search.lvkaszus.pl/89.168.78.144
+## DE
+address /search.smnz.de/37.120.162.86
+address /smnz.de/37.120.162.86
+
+# invidious
+## RO
+address /invidious.flokinet.to/185.247.224.4
+## DE iv.datura.network
+address /datura.network/65.109.30.253
+## DE CF
+address /invidious.lunar.icu/45.145.40.181
+
+# libreddit
+## TR
+address /libreddit.kutay.dev/162.19.153.109
+## BG
+address /reddit.invak.id/188.124.94.153
+## BG
+address /reddit.simo.sh/185.138.177.116
+
+# nitter
+## DE OG
+address /nitter.net/185.246.188.57
+
+# proxitok
+## RO
+address /proxitok.kyun.li/82.153.138.205
+## DE OG
+address /proxitok.pabloferreiro.es/38.242.238.232
+## DE
+address /proxitok.tinfoil-hat.net/178.18.249.92
+## DE
+address /tok.artemislena.eu/91.65.191.219
+
+# safetwitch
+## DE NOCHAT
+#address /safetwitch.datura.network/...
+## DE CF
+address /stream.whateveritworks.org/104.21.28.205
+
+# tv
+## 24
+address /turkmedya-live.ercdn.net/50.7.29.250,50.7.24.18
+## atv
+address /securevideotoken.tmgrup.com.tr/46.17.134.238
+address /trkvz.daioncdn.net/62.112.11.73
+## kanald
+address /demiroren.daioncdn.net/178.162.172.87,185.100.232.79,185.100.235.49,89.39.105.103,62.112.11.73,185.100.232.80,185.132.134.20,185.100.232.76,93.190.137.169,178.162.172.85,185.177.127.133,178.162.172.86,190.2.144.18,185.177.126.223,185.100.232.140,212.8.253.127,178.162.172.32,190.2.144.72,89.39.106.224,
+## ntv,startv,dmax,tlc
+address /dogus.daioncdn.net/185.100.232.79,185.100.232.80,178.162.172.86,185.132.134.20,62.112.11.73,178.162.172.32,89.39.105.103,212.8.253.127,185.100.232.76,178.162.172.87,89.39.106.224,190.2.144.18,178.162.172.85
+## trt1
+address /tv-trt1.medya.trt.com.tr/193.192.103.235
+## trtmuzik
+address /tv-trtmuzik.medya.trt.com.tr/193.192.103.242,193.192.103.251
+## trtspor,trtspor-yildiz
+address /trt.daioncdn.net/89.149.203.97,46.166.182.3,190.2.144.83
+## akit
+address /akittv-live.ercdn.net/50.7.29.250,50.7.24.18
+## nowtv
+address /www.nowtv.com.tr/176.235.92.171
+address /nowtv-live-ad.ercdn.net/66.90.86.44,50.7.24.74
+## showtv
+address /ciner.daioncdn.net/178.162.172.86,178.162.172.32
+## trt belgesel
+address /tv-trtbelgesel.medya.trt.com.tr/193.192.103.233,193.192.103.235
+## tvnet
+address /mn-nl.mncdn.com/185.230.16.83
+
+# music
+address /doubledouble.top/107.189.2.163,107.189.5.69
