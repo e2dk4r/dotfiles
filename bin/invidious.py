@@ -49,7 +49,7 @@ def extract_paramater(url: str):
     return url
 
 def main():
-    if len(argv) != 2:
+    if len(argv) == 1:
         usage()
         exit(1)
     videoId = argv[-1]
@@ -119,7 +119,7 @@ def main():
             run(['mpv', audio])
             break
         
-        system(f"mpv '{video}' '--audio-file={audio}'")
+        system(f"mpv {' '.join(argv[1:-1])} '{video}' '--audio-file={audio}'")
         break
 
 if __name__ == '__main__':
