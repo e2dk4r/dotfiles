@@ -40,6 +40,7 @@ address /invidious.lunar.icu/45.145.40.181
 # work
 address /github.com/140.82.121.3
 address /api.github.com/140.82.121.6
+address /docs.github.com/185.199.110.154,185.199.111.154,185.199.108.154,185.199.109.154
 
 # libreddit
 ## TR
