@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Redirect output to stderr.
+exec 1>&2
+
+for file in $(git diff --cached --name-only --diff-filter=AMR); do
+  clang-format -i "$file"
+  if [ $? -ne 0 ]; then
+    echo "Error: clang-format failed to format '$file'"
+    exit 1
+  fi
+done
