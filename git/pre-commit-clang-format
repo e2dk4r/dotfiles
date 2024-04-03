@@ -3,10 +3,14 @@
 # Redirect output to stderr.
 exec 1>&2
 
+error=0
 for file in $(git diff --cached --name-only --diff-filter=AMR); do
-  clang-format -i "$file"
+  clang-format -Werror --dry-run "$file"
   if [ $? -ne 0 ]; then
-    echo "Error: clang-format failed to format '$file'"
-    exit 1
+    error=1
   fi
 done
+
+if [ $error -ne 0 ]; then
+  exit 1
+fi
