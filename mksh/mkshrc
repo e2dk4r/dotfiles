@@ -80,7 +80,7 @@ if [ "$(tty)" = '/dev/tty1' ]; then
 
   # mpv uses vulkan video decoding
   # https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/docs/envvars.rst
-  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,shader_object,transfer_queue,video_decode
+  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,shader_object,transfer_queue,video_decode,video_encode
 
   # wine
   export WINEPREFIX=/tmp/gaming/wine
