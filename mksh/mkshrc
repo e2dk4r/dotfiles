@@ -59,6 +59,10 @@ alias t='rtorrent'
 alias cal='cal -m'
 alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner'
+alias gs='git status'
+alias ga='git add -p'
+alias gc='git commit -v'
+alias gp='git push'
 
 # login manager
 if [ "$(tty)" = '/dev/tty1' ]; then
