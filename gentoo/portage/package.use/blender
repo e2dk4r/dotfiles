@@ -1,0 +1,15 @@
+# render engine
+media-gfx/blender cycles
+
+# cycle render devices
+media-gfx/blender hip
+media-gfx/blender -cuda -optix
+
+# optix specific
+media-gfx/blender -embree
+
+# memory optimization
+media-gfx/blender jemalloc
+
+# not used
+media-gfx/blender -pdf -webp

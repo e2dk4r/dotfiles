@@ -1,0 +1,4 @@
+net-wireless/iwd ~amd64
+
+# req
+dev-libs/ell ~amd64

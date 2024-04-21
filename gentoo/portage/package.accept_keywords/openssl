@@ -1,0 +1,5 @@
+# latest
+dev-libs/openssl **
+
+# testing
+#dev-libs/openssl ~amd64

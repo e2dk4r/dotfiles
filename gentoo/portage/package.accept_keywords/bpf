@@ -1,0 +1,3 @@
+dev-util/bcc ~amd64
+# move dev-util/bpftrace dev-debug/bpftrace
+dev-debug/bpftrace ~amd64

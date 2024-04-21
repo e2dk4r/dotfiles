@@ -1,0 +1,5 @@
+# bleeding edge
+=media-video/ffmpeg-9999 **
+
+# testing
+#media-video/ffmpeg ~amd64

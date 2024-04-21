@@ -1,0 +1,14 @@
+net-misc/netifrc -dhcp
+app-text/qpdf -ssl
+net-misc/curl -imap -pop3 -smtp
+app-admin/sudo -ssl -sendmail
+dev-libs/libzip -ssl
+app-crypt/rhash -ssl
+dev-libs/libevent -ssl
+
+# ssl used by portage to verify rsync
+app-crypt/gnupg -bzip2 -smartcard 
+
+net-misc/wget -pcre -zlib
+
+sys-apps/iproute2 -iptables

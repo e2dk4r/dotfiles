@@ -1,0 +1,8 @@
+# bleeding edge
+# expect random crashes
+=media-libs/mesa-9999 **
+
+x11-libs/libdrm ~amd64
+
+# testing
+#media-libs/mesa ~amd64

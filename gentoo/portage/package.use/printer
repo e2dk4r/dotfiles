@@ -1,0 +1,6 @@
+net-print/hplip hpcups scanner -snmp
+media-gfx/sane-backends -zeroconf SANE_BACKENDS: -* hp
+
+# ssl is required for building. gnutls_hash_*
+#net-print/cups -ssl
+net-print/cups openssl

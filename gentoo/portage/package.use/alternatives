@@ -1,0 +1,4 @@
+app-alternatives/sh -* dash
+app-alternatives/gzip -* pigz
+app-alternatives/tar -* libarchive
+app-alternatives/cpio -* libarchive

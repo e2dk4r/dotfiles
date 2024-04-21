@@ -1,0 +1,46 @@
+# libc
+sys-libs/glibc compiler-gcc-O3
+
+# crypto
+sys-libs/openssl compiler-clang-thinlto-mold-O3
+
+# gpu
+media-libs/mesa compiler-clang-thinlto-mold-O3
+x11-libs/libdrm compiler-clang-thinlto-mold-O3
+
+# art
+media-gfx/blender compiler-clang-thinlto-mold-O3
+
+# media
+media-video/ffmpeg compiler-clang-thinlto-mold-O3
+media-video/mpv compiler-clang-thinlto-mold-O3
+media-libs/libplacebo compiler-clang-thinlto-mold-O3
+
+# drawing
+media-libs/freetype compiler-clang-thinlto-mold-O3
+media-libs/harfbuzz compiler-clang-thinlto-mold-O3
+x11-libs/pixman compiler-clang-thinlto-mold-O3
+x11-libs/cairo compiler-clang-thinlto-mold-O3
+
+# audio
+media-video/pipewire compiler-clang-thinlto-mold-O3
+
+# language
+dev-lang/python compiler-clang-thinlto-mold-O3
+
+# gaming
+media-libs/libsdl2 compiler-clang-thinlto-mold-O3
+dev-qt/* compiler-clang-thinlto-mold-O3
+games-emulation/yuzu compiler-clang-thinlto-mold-O3
+games-emulation/wine-vanilla compiler-clang-thinlto-mold-O3
+
+# web
+www-client/librewolf compiler-clang-thinlto-mold-O3
+
+# compression
+sys-libs/zlib compiler-clang-thinlto-mold-O3
+app-arch/zstd compiler-clang-thinlto-mold-O3
+
+# desktop environment
+gui-wm/sway compiler-clang-thinlto-mold-O3
+gui-libs/wlroots compiler-clang-thinlto-mold-O3

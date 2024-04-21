@@ -1,0 +1,9 @@
+# audio output
+media-video/mpv pipewire -pulseaudio -alsa
+
+# video output
+media-video/mpv wayland egl drm -X -xv -opengl
+
+# compression
+# subtitles can be encoded
+media-video/mpv zlib

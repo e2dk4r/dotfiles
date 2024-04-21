@@ -1,0 +1,7 @@
+media-video/pipewire -ssl -v4l -man -doc
+# replace pulseaudio with pipewire
+# https://wiki.gentoo.org/wiki/Pipewire#Replacing_PulseAudio
+media-video/pipewire sound-server
+media-sound/pulseaudio -daemon ldac native-headset ofono-headset
+#media-sound/pulseaudio-daemon ofono-headset
+media-video/pipewire extra

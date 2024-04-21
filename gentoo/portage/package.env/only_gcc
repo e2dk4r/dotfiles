@@ -1,0 +1,48 @@
+# configuration failed. because of mp
+sci-libs/fftw compiler-gcc-lto-mold
+
+# Error: unrecognized argument to ‘-flto=’ option: ‘thin’
+sci-libs/lapack compiler-gcc
+
+# -flto not recognized
+# c++17 issues
+# conversion issues
+net-print/hplip compiler-gcc-lto-mold
+
+# error: Error in reading profile default.profdata: No such file or directory
+sys-devel/binutils compiler-gcc-lto-mold
+sys-libs/binutils-libs compiler-gcc-lto-mold
+
+# rpcs3 does not support lto
+games-emulation/rpcs3 compiler-gcc
+
+# always using gcc
+sys-devel/gcc compiler-gcc-lto
+sys-devel/lld compiler-gcc-lto
+
+# fails to build with clang
+app-office/sc compiler-gcc-lto
+
+app-containers/podman compiler-gcc-lto
+dev-libs/unibilium    compiler-gcc-lto
+dev-util/glslang      compiler-gcc-lto
+
+# causes segmention fault when compiled with clang
+net-p2p/rtorrent    compiler-gcc-lto
+net-libs/libtorrent compiler-gcc-lto
+
+# add-needed not found on clang
+sys-libs/efivar compiler-gcc-lto
+
+# ld.lld: error: undefined symbol: __atomic_load
+media-libs/noise-suppression-for-voice compiler-gcc-lto
+
+# mold: fatal: LLVM gold plugin: <inline asm>:3:1: default version symbol fuse_new@@FUSE_3.1 must be defined
+sys-fs/fuse compiler-gcc-lto
+
+# error: a function declaration without a prototype is deprecated in all versions of C [-Werror,-Wstrict-prototypes]
+net-misc/rsync compiler-gcc-lto
+
+=sys-apps/pciutils-3.10.0 compiler-gcc-lto
+
+# vi:ft=bash

@@ -1,0 +1,20 @@
+# documentation
+app-emulation/qemu -doc
+# i/o
+app-emulation/qemu -aio io-uring
+# for display
+app-emulation/qemu -vnc -spice -sdl gtk opengl virgl
+# audio
+app-emulation/qemu -alsa -oss -pulseaudio pipewire
+# compression
+app-emulation/qemu -bzip2 -zstd
+# usb
+app-emulation/qemu usb usbredir
+# virtio
+app-emulation/qemu vhost-net vhost-user-fs
+# misc
+app-emulation/qemu jemalloc
+# disabled
+app-emulation/qemu -curl -gnutls -jpeg -png -xattr
+# targets
+app-emulation/qemu QEMU_SOFTMMU_TARGETS: x86_64 i386 QEMU_USER_TARGETS: x86_64

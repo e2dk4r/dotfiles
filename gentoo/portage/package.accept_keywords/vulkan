@@ -1,0 +1,31 @@
+# bleeding
+# required for yuzu
+#=media-libs/vulkan-loader-9999 **
+#=dev-util/vulkan-headers-9999 **
+#=dev-util/vulkan-tools-9999 **
+### runtime dependency
+#=dev-util/volk-9999 **
+
+# testing
+media-libs/vulkan-loader ~amd64
+dev-util/vulkan-headers ~amd64
+dev-util/vulkan-tools ~amd64
+
+# layers
+# required by dev-util/spirv-tools-1.3.275::gentoo
+# required by dev-util/glslang-1.3.275::gentoo
+# required by media-libs/vulkan-layers-1.3.275::gentoo
+# required by =vulkan-layers-1.3.275 (argument)
+dev-util/spirv-headers ~amd64
+# required by =vulkan-layers-1.3.275 (argument)
+media-libs/vulkan-layers ~amd64
+# required by media-libs/vulkan-layers-1.3.275::gentoo
+# required by =vulkan-layers-1.3.275 (argument)
+dev-util/spirv-tools ~amd64
+# required by media-libs/vulkan-layers-1.3.275::gentoo
+# required by =vulkan-layers-1.3.275 (argument)
+dev-util/vulkan-utility-libraries ~amd64
+# required by media-libs/vulkan-layers-1.3.275::gentoo
+# required by =vulkan-layers-1.3.275 (argument)
+dev-util/glslang ~amd64
+media-libs/shaderc ~amd64

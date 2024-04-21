@@ -1,0 +1,5 @@
+# required by =yuzu-9999 (argument)
+=games-emulation/yuzu-9999 **
+# required by games-emulation/yuzu-9999::guru
+# required by =yuzu-9999 (argument)
+=dev-cpp/cpp-jwt-1.5_pre20220727 ~amd64

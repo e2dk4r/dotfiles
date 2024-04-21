@@ -1,0 +1,90 @@
+# required by helix (argument)
+app-editors/helix ~amd64
+
+# webp
+media-libs/libwebp ~amd64
+
+# curl
+net-misc/curl ~amd64
+
+# wine
+app-emulation/wine-proton ~amd64
+app-emulation/wine-staging ~amd64
+app-emulation/wine-mono ~amd64
+app-emulation/wine-gecko ~amd64
+app-emulation/wine-mono ~amd64
+
+# required by termshark (argument)
+net-analyzer/termshark ~amd64
+
+# required by xxd (argument)
+=dev-util/xxd-8.2.4092 ~amd64
+
+# required by rpcs3 (argument)
+=games-emulation/rpcs3-9999 **
+
+# required by >=mold-2.2 (argument)
+dev-libs/blake3 ~amd64
+
+#
+x11-libs/cairo ~amd64
+# required by gamescope (argument)
+=gui-wm/gamescope-3.12.7 ~amd64
+# required by gui-wm/gamescope-3.12.7::gentoo[wsi-layer]
+# required by gamescope (argument)
+=media-libs/vkroots-0_p20230103-r1 ~amd64
+# required by gui-wm/gamescope-3.12.7::gentoo
+# required by gamescope (argument)
+=dev-libs/libliftoff-0.4.1 ~amd64
+# required by gui-wm/gamescope-3.12.7::gentoo
+# required by gamescope (argument)
+=media-libs/libdisplay-info-0.1.1 ~amd64
+# required by simpleini (argument)
+=dev-cpp/simpleini-4.20 ~amd64
+
+# blender
+# required by media-gfx/blender-4.0.1::gentoo[openpgl]
+# required by =blender-4.0.1 (argument)
+=media-libs/openpgl-0.5.0 ~amd64
+# required by media-gfx/blender-4.0.1::gentoo[opensubdiv]
+# required by =blender-4.0.1 (argument)
+=media-libs/opensubdiv-3.5.0 ~amd64
+
+# required by tofi (argument)
+=gui-apps/tofi-0.9.1 ~amd64
+
+# required by =renderdoc-1.30 (argument)
+=media-gfx/renderdoc-1.30 ~amd64
+
+# hip
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-perl/URI-Encode-1.1.1-r1 ~amd64
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-util/rocminfo-6.0.0 ~amd64
+# required by dev-libs/rocm-comgr-6.0.0::gentoo
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-libs/rocm-device-libs-6.0.0 ~amd64
+# required by =hip-6.0.0 (argument)
+=dev-util/hip-6.0.0 ~amd64
+# required by dev-util/rocminfo-5.7.1::gentoo
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-libs/rocr-runtime-6.0.0 ~amd64
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-util/hipcc-6.0.0 ~amd64
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-libs/rocm-comgr-6.0.0 ~amd64
+# required by dev-libs/rocr-runtime-5.7.1-r1::gentoo
+# required by dev-util/rocminfo-5.7.1::gentoo
+# required by dev-util/hip-6.0.0::gentoo
+# required by =hip-6.0.0 (argument)
+=dev-libs/roct-thunk-interface-6.0.0 ~amd64
+
+# yuzu
+# required by simpleini (argument)
+=dev-cpp/simpleini-4.22 ~amd64

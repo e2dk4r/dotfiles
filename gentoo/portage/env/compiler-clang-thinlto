@@ -1,0 +1,23 @@
+CC="clang"
+CXX="clang++"
+LD="ld.lld"
+
+AR="llvm-ar"
+AS="clang -c"
+CPP="clang-cpp"
+NM="llvm-nm"
+STRIP="llvm-strip"
+RANLIB="llvm-ranlib"
+OBJCOPY="llvm-objcopy"
+STRINGS="llvm-strings"
+OBJDUMP="llvm-objdump"
+READELF="llvm-readelf"
+ADDR2LINE="llvm-addr2line"
+
+COMMON_FLAGS="-march=znver3 -O2 -pipe -flto=thin"
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+
+LDFLAGS="-Wl,-O2 -Wl,--as-needed -flto=thin"

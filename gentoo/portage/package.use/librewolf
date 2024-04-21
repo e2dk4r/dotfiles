@@ -1,0 +1,19 @@
+www-client/librewolf -hardened
+
+# firefox/librewolf dont have native pipewire support
+www-client/librewolf pulseaudio
+
+# performance
+www-client/librewolf hwaccel lto pgo
+
+# use system libs
+www-client/librewolf system-av1 system-harfbuzz system-icu system-libevent system-libvpx system-jpeg system-png system-python-libs system-webp system-python-libs
+
+# without royalty 
+www-client/librewolf eme-free
+
+# dbus is needed for idle inhebit
+www-client/librewolf -dbus
+
+# pipewire screen sharing
+www-client/librewolf screencast

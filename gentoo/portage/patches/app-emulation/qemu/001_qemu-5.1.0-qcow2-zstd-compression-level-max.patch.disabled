@@ -1,0 +1,28 @@
+commit 0c310d8012199bb8bb0b8702188bbdedc6246c4a
+Author: e2dk4r <43293320+e2dk4r@users.noreply.github.com>
+Date:   Sun Nov 27 11:12:05 2022 +0300
+
+    block: qcow2: set default compression level to be max
+
+    zstd support added with commit d298ac10add95e2b7f8850332f3b755c8a23d925
+    it is available from v5.1.0
+
+    see: https://gitlab.com/qemu-project/qemu/-/commit/d298ac10add95e2b7f8850332f3b755c8a23d925
+    see: https://wiki.qemu.org/ChangeLog/5.1#Block_device_backends_and_tools
+
+
+diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
+index 1914baf..feef048 100644
+--- a/block/qcow2-threads.c
++++ b/block/qcow2-threads.c
+@@ -205,6 +205,10 @@ static ssize_t qcow2_zstd_compress(void *dest, size_t dest_size,
+     if (!cctx) {
+         return -EIO;
+     }
++
++    /* enable max compression level */
++    ZSTD_CCtx_setParameter(cctx, ZSTD_c_compressionLevel, ZSTD_maxCLevel());
++
+     /*
+      * Use the zstd streamed interface for symmetry with decompression,
+      * where streaming is essential since we don't record the exact

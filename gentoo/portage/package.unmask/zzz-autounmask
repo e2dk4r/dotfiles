@@ -1,0 +1,9 @@
+# hip
+>=dev-libs/roct-thunk-interface-6.0.0
+>=dev-libs/rocr-runtime-6.0.0
+>=dev-libs/rocm-comgr-6.0.0
+>=dev-libs/rocm-device-libs-6.0.0
+>=dev-libs/rocm-opencl-runtime-6.0.0
+>=dev-util/hipcc-6.0.0
+>=dev-util/hip-6.0.0
+>=dev-util/rocminfo-6.0.0

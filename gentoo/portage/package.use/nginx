@@ -1,0 +1,4 @@
+www-servers/nginx -*
+www-servers/nginx threads 
+www-servers/nginx http
+www-servers/nginx NGINX_MODULES_HTTP: autoindex

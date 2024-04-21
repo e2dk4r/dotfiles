@@ -1,0 +1,14 @@
+# tls
+media-video/ffmpeg -gnutls openssl 
+# performance
+media-video/ffmpeg hardcoded-tables
+# screen grab
+media-video/ffmpeg libdrm
+# video codecs
+media-video/ffmpeg dav1d svt-av1 -x264 -x265
+# audio codecs
+media-video/ffmpeg -mp3 opus
+# audio input
+media-video/ffmpeg -alsa -pulseaudio
+# unused
+media-video/ffmpeg -bzip2 -v4l -srt fftools: -*

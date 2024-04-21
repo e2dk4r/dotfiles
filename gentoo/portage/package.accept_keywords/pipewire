@@ -1,0 +1,7 @@
+# from latest commit
+~media-video/pipewire-9999 **
+~media-video/wireplumber-9999 **
+
+# testing branch
+#media-video/pipewire ~amd64
+#media-video/wireplumber ~amd64

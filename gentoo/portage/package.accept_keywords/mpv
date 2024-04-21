@@ -1,0 +1,7 @@
+# from git
+~media-video/mpv-9999 **
+~media-libs/libplacebo-9999 **
+
+# from testing
+#media-video/mpv ~amd64
+#media-libs/libplacebo ~amd64

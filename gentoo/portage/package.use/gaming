@@ -1,0 +1,25 @@
+# shared
+media-libs/libsdl2 custom-cflags
+media-libs/libsdl2 wayland gles2
+media-libs/libsdl2 haptic
+media-libs/libsdl2 -dbus
+
+# windows
+app-eselect/eselect-wine -xdg
+
+## vanilla
+app-emulation/wine-vanilla custom-cflags -X wayland mingw pulseaudio -wow64 -xcomposite -unwind -gecko -gstreamer
+
+## proton
+#virtual/wine proton
+app-emulation/wine-proton custom-cflags -xcomposite -gecko -unwind -gstreamer
+
+# nintendo
+games-emulation/yuzu qt5 sdl
+## use sdl's audio output
+games-emulation/yuzu -cubeb
+## disable network
+## webservice required for hosting a room
+games-emulation/yuzu -webservice
+## unnecessary
+games-emulation/yuzu -compatibility-list

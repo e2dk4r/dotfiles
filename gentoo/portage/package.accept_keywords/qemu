@@ -1,0 +1,2 @@
+app-emulation/qemu ~amd64
+app-emulation/virtiofsd ~amd64

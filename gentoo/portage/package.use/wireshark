@@ -1,0 +1,11 @@
+# gui
+net-analyzer/wireshark -* tshark
+
+# supported protocol
+net-analyzer/wireshark http2
+
+# pcap supported for capturing and reading
+net-analyzer/wireshark dumpcap pcap 
+
+# dependencies
+net-libs/libpcap -*

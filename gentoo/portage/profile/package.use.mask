@@ -1,0 +1,4 @@
+net-libs/nodejs -lto
+dev-lang/python -lto
+media-libs/libsdl2 -custom-cflags
+sys-libs/glibc -custom-cflags

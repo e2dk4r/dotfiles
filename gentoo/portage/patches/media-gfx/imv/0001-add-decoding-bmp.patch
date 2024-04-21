@@ -1,0 +1,378 @@
+diff --git a/AUTHORS b/AUTHORS
+index a1e30bf..2632303 100644
+--- a/AUTHORS
++++ b/AUTHORS
+@@ -3,6 +3,7 @@ Author and maintainer of imv:
+
+ People who have contributed to imv:
+  * Carlo Abelli
++ * e2dk4r
+  * Guillaume Brogi
+  * Dmitrij D. Czarkoff
+  * Jose Diez
+diff --git a/meson.build b/meson.build
+index ea3a653..a1ecaf0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -128,6 +128,7 @@ foreach backend : [
+   ['libnsgif', 'dependency', 'libnsgif', '< 1.0.0'],
+   ['libheif', 'dependency', 'libheif', []],
+   ['libjxl', 'dependency', 'libjxl', []],
++  ['bmp', 'builtin', ''],
+ ]
+   _backend_name = backend[0]
+   _dep_type = backend[1]
+@@ -137,11 +138,12 @@ foreach backend : [
+     _dep = dependency(_dep_name, required: get_option(_backend_name), version: backend[3])
+   elif _dep_type == 'library'
+     _dep = cc.find_library(_dep_name, required: get_option(_backend_name))
++  elif _dep_type == 'builtin'
+   else
+     error('invalid dep type: @0@'.format(_dep_type))
+   endif
+
+-  if _dep.found()
++  if _dep.found() or _dep_type == 'builtin'
+     deps_for_imv += _dep
+     files_imv += files('src/backend_@0@.c'.format(_backend_name))
+     add_project_arguments('-DIMV_BACKEND_@0@'.format(_backend_name.to_upper()), language: 'c')
+diff --git a/src/backend_bmp.c b/src/backend_bmp.c
+new file mode 100644
+index 0000000..6c09d46
+--- /dev/null
++++ b/src/backend_bmp.c
+@@ -0,0 +1,310 @@
++#include "backend.h"
++#include "bitmap.h"
++#include "image.h"
++#include "log.h"
++#include "source_private.h"
++
++#include <fcntl.h>
++#include <stdint.h>
++#include <strings.h>
++#include <sys/stat.h>
++
++static inline int32_t FindLeastSignificantBitSet(int32_t value) {
++  return ffs(value) - 1;
++}
++
++#define BMP_COMPRESSION_RGB 0
++#define BMP_COMPRESSION_BITFIELDS 3
++struct __attribute__((packed)) bmp_header {
++  uint16_t fileType;
++  uint32_t fileSize;
++  uint16_t reserved1;
++  uint16_t reserved2;
++  uint32_t pixelsOffset;
++  uint32_t size;
++  int32_t width;
++  int32_t height;
++  uint16_t planes;
++  uint16_t bitsPerPixel;
++  uint32_t compression;
++  uint32_t imageSize;
++  uint32_t horzResolution;
++  uint32_t vertResolution;
++  uint32_t colorsPalette;
++  uint32_t colorsImportant;
++  uint32_t redMask;
++  uint32_t greenMask;
++  uint32_t blueMask;
++};
++
++struct bmp_state {
++  void *pixels;
++  int width;
++  int height;
++};
++
++static void free_bmp_state(void *private) {
++  struct bmp_state *state = private;
++  free(state);
++}
++
++static void load_image(void *private, struct imv_image **image,
++                       int *frametime) {
++  struct bmp_state *state = private;
++
++  struct imv_bitmap *bmp = malloc(sizeof(*bmp));
++  bmp->width = state->width;
++  bmp->height = state->height;
++  bmp->format = IMV_ARGB;
++  bmp->data = state->pixels;
++  *image = imv_image_create_from_bitmap(bmp);
++}
++
++static const struct imv_source_vtable vtable = {.load_first_frame = load_image,
++                                                .free = free_bmp_state};
++
++static enum backend_result open_path(const char *path,
++                                     struct imv_source **src) {
++  enum backend_result result = BACKEND_SUCCESS;
++
++  /****************************************************************
++   * open path
++   ****************************************************************/
++  int fd = open(path, O_RDONLY | O_NONBLOCK);
++  if (fd < 0) {
++    result = BACKEND_BAD_PATH;
++    goto exit;
++  }
++
++  /****************************************************************
++   * check size of the file
++   ****************************************************************/
++  struct stat stat;
++  if (fstat(fd, &stat)) {
++    result = BACKEND_BAD_PATH;
++    goto fd_exit;
++  }
++
++  if (!S_ISREG(stat.st_mode)) {
++    result = BACKEND_BAD_PATH;
++    goto fd_exit;
++  }
++
++  if (stat.st_size < sizeof(struct bmp_header)) {
++    result = BACKEND_UNSUPPORTED;
++    goto fd_exit;
++  }
++
++  /****************************************************************
++   * read bmp header
++   ****************************************************************/
++  struct bmp_header header;
++  ssize_t bytesRead = read(fd, &header, sizeof(header));
++  if (bytesRead != sizeof(header)) {
++    result = BACKEND_UNSUPPORTED;
++    goto fd_exit;
++  }
++
++  /* currently 24bpp and 32bpp images supported */
++  if (!(header.bitsPerPixel == 24 || header.bitsPerPixel == 32)) {
++    result = BACKEND_UNSUPPORTED;
++    goto fd_exit;
++  }
++
++  /*
++   * https://www.fileformat.info/format/bmp/egff.htm
++   * If Height is a positive number, then the image is a "bottom-up" bitmap with
++   * the origin in the lower-left corner. If Height is a negative number, then
++   * the image is a "top-down" bitmap with the origin in the upper-left corner.
++   *
++   * generally image is "bottom-up".
++   */
++  uint8_t isBottomUp = header.height > 0;
++  if (!isBottomUp)
++    header.height *= -1;
++  if (header.width < 0)
++    header.width *= -1;
++
++  /****************************************************************
++   * check magic bytes
++   ****************************************************************/
++  char *magic = (char *)&header.fileType;
++  if (!(magic[0] == 'B' && magic[1] == 'M')) {
++    result = BACKEND_UNSUPPORTED;
++    goto fd_exit;
++  }
++
++  imv_log(IMV_DEBUG, "bmp: info width=%d height=%d bitsPerPixel=%d",
++          header.width, header.height, header.bitsPerPixel);
++
++  /****************************************************************
++   * prepare temporary pixels that will read from file
++   ****************************************************************/
++  int32_t bytesPerPixel = header.bitsPerPixel >> 3;
++  int32_t srcStride = header.width * bytesPerPixel;
++  void *srcPixels = malloc(header.imageSize);
++  if (!srcPixels) {
++    result = BACKEND_UNSUPPORTED;
++    goto fd_exit;
++  }
++
++  /****************************************************************
++   * prepare pixels that will be on screen
++   ****************************************************************/
++  int32_t dstStride = header.width * 4;
++  int32_t imageSize = header.height * dstStride;
++  uint8_t *dstPixels = malloc(imageSize);
++  if (!dstPixels) {
++    result = BACKEND_UNSUPPORTED;
++    goto src_pixels_exit;
++  }
++
++  /****************************************************************
++   * prepare state
++   ****************************************************************/
++  struct bmp_state *state = malloc(sizeof(*state));
++  if (!state) {
++    result = BACKEND_UNSUPPORTED;
++    goto dst_pixels_exit;
++  }
++
++  state->pixels = dstPixels;
++  state->width = header.width;
++  state->height = header.height;
++
++  /****************************************************************
++   * go to pixels array on file
++   ****************************************************************/
++  if (lseek(fd, header.pixelsOffset, SEEK_SET) < 0) {
++    result = BACKEND_UNSUPPORTED;
++    goto state_exit;
++  }
++
++  /****************************************************************
++   * read pixels from file
++   ****************************************************************/
++  bytesRead = read(fd, srcPixels, header.imageSize);
++  if (bytesRead != header.imageSize) {
++    result = BACKEND_UNSUPPORTED;
++    free(state);
++    free(srcPixels);
++    goto dst_pixels_exit;
++  }
++
++  /****************************************************************
++   * turn read pixels from file into readable pixels
++   ****************************************************************/
++  /* turn 24bit pixels to 32bit */
++  if (header.compression == BMP_COMPRESSION_RGB) {
++    /*
++     * Padding bytes (not necessarily 0) must be appended to the
++     * end of the rows in order to bring up the length of the rows
++     * to a multiple of four bytes.
++     */
++    int32_t padding = header.width * 3 / 4;
++    while (header.width * 3 > padding * 4)
++      padding++;
++
++    uint8_t *srcRow = (uint8_t *)srcPixels + (header.height - 1) * srcStride +
++                      (header.height - 1) * padding;
++    if (!isBottomUp)
++      srcRow = (uint8_t *)srcPixels;
++
++    uint8_t *dstRow = (uint8_t *)state->pixels;
++    for (int32_t y = 0; y < header.height; y++) {
++      uint8_t *src = srcRow;
++      uint32_t *dst = (uint32_t *)dstRow;
++
++      for (int32_t x = 0; x < header.width; x++) {
++        uint32_t value = *(uint32_t *)src;
++
++        *dst = value | 0xff << 24;
++
++        src += bytesPerPixel;
++        dst++;
++      }
++
++      if (isBottomUp)
++        srcRow -= srcStride + padding;
++      else
++        srcRow += srcStride + padding;
++
++      dstRow += dstStride;
++    }
++
++  } else if (header.compression == BMP_COMPRESSION_BITFIELDS) {
++    int32_t redShift = FindLeastSignificantBitSet((int32_t)header.redMask);
++    int32_t greenShift = FindLeastSignificantBitSet((int32_t)header.greenMask);
++    int32_t blueShift = FindLeastSignificantBitSet((int32_t)header.blueMask);
++
++    uint32_t alphaMask = ~(header.redMask | header.greenMask | header.blueMask);
++    int32_t alphaShift = FindLeastSignificantBitSet(alphaMask);
++
++    uint8_t *srcRow = (uint8_t *)srcPixels + (header.height - 1) * srcStride;
++    if (!isBottomUp)
++      srcRow = (uint8_t *)srcPixels;
++
++    uint8_t *dstRow = (uint8_t *)state->pixels;
++    for (int32_t y = 0; y < header.height; y++) {
++      uint32_t *src = (uint32_t *)srcRow;
++      uint32_t *dst = (uint32_t *)dstRow;
++
++      for (int32_t x = 0; x < header.width; x++) {
++        uint32_t value = *src;
++
++        *dst =
++            /* blue */
++            ((value >> blueShift) & 0xff) << 0
++            /* green */
++            | ((value >> greenShift) & 0xff) << 8
++            /* red */
++            | ((value >> redShift) & 0xff) << 16
++            /* alpha */
++            | ((value >> alphaShift) & 0xff) << 24;
++
++        src++;
++        dst++;
++      }
++
++      if (isBottomUp)
++        srcRow -= srcStride;
++      else
++        srcRow += srcStride;
++
++      dstRow += dstStride;
++    }
++  }
++
++  /* all pixels read from file */
++  free(srcPixels);
++
++  *src = imv_source_create(&vtable, state);
++
++  /* read file successfully */
++  close(fd);
++  return result;
++
++  /* error happend */
++state_exit:
++  free(state);
++
++dst_pixels_exit:
++  free(dstPixels);
++
++src_pixels_exit:
++  free(srcPixels);
++
++fd_exit:
++  close(fd);
++
++exit:
++  return result;
++}
++
++const struct imv_backend imv_backend_bmp = {
++    .name = "bmp",
++    .description = "bmp implementation v1",
++    .website = "https://git.sr.ht/~exec64/imv",
++    .license = "MIT",
++    .open_path = &open_path,
++};
+diff --git a/src/main.c b/src/main.c
+index cf851d1..9cc2323 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -10,6 +10,7 @@ extern const struct imv_backend imv_backend_libjpeg;
+ extern const struct imv_backend imv_backend_libnsgif;
+ extern const struct imv_backend imv_backend_libheif;
+ extern const struct imv_backend imv_backend_libjxl;
++extern const struct imv_backend imv_backend_bmp;
+
+ int main(int argc, char **argv)
+ {
+@@ -51,6 +52,10 @@ int main(int argc, char **argv)
+   imv_install_backend(imv, &imv_backend_libjxl);
+ #endif
+
++#ifdef IMV_BACKEND_BMP
++  imv_install_backend(imv, &imv_backend_bmp);
++#endif
++
+   if (!imv_load_config(imv)) {
+     imv_free(imv);
+     return 1;
+--
