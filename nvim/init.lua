@@ -16,7 +16,8 @@ vim.opt.incsearch = true
 
 -- color
 vim.opt.termguicolors = true
-vim.cmd.colorscheme('habamax')
+--vim.cmd.colorscheme('habamax')
+vim.cmd.colorscheme('gruvbox')
 
 -- clipboard
 vim.keymap.set('n', '<space>y', '"+y')
@@ -25,6 +26,26 @@ vim.keymap.set('n', '<space>p', '"+p')
 -- diagnostic
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next) 
+
+-- shortcuts
+vim.keymap.set('n', '<c-k>', ':silent !clang-format -i %<CR>')
+vim.keymap.set('n', '<c-j>', ':write<CR>')
+vim.keymap.set('n', '<c-l>', ':make<CR>')
+
+-- command abbreviations
+vim.cmd.cnoreabbrev('git Git')
+vim.cmd.cnoreabbrev('Make make')
+vim.cmd.cnoreabbrev('amek make')
+vim.cmd.cnoreabbrev('amke make')
+vim.cmd.cnoreabbrev('man Man')
+
+-- insert abbreviations
+vim.cmd.iabbrev('todo: TODO(e2dk4r):')
+vim.cmd.iabbrev('TODO: TODO(e2dk4r):')
+vim.cmd.iabbrev('FIXME: FIXME(e2dk4r):')
+vim.cmd.iabbrev('fixme: FIXME(e2dk4r):')
+vim.cmd.iabbrev('NOTE: NOTE(e2dk4r):')
+vim.cmd.iabbrev('note: NOTE(e2dk4r):')
 
 -- treesitter
 vim.treesitter.language.add('tsq',        { path = "/usr/lib64/libtree-sitter-tsq.so" })
@@ -51,8 +72,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local opts = { buffer = ev.buf }
     vim.keymap.set('n', '<space>r', vim.lsp.buf.rename, opts)
-    vim.keymap.set('n', '<c-k>', vim.lsp.buf.format)
-    vim.keymap.set('n', '<c-l>', ':write<CR>:make<CR>`\'')
+    vim.keymap.set('n', '<c-k>', vim.lsp.buf.format, opts)
     vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -74,4 +94,3 @@ vim.keymap.set('n', '<space>s', telescope.lsp_document_symbols, {})
 vim.keymap.set('n', '<space>S', telescope.lsp_workspace_symbols, {})
 vim.keymap.set('n', '<space>d', telescope.diagnostics, {})
 vim.keymap.set('n', '<space>t', telescope.treesitter, {})
-
