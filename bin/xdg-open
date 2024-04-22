@@ -6,7 +6,7 @@ case "${1%%:*}" in
   *.mp4|*.webm|*.mkv|*.flac|*.opus|*.mp3|*.m3u8)
     exec mpv "$1"
 		;;
-	*.jpg|*.jpeg|*.webp|*.png|*.svg|*.gif|*.tif|*.tiff)
+	*.jpg|*.jpeg|*.webp|*.png|*.bmp|*.svg|*.gif|*.tif|*.tiff)
     exec imv "$1"
 		;;
 	*.pdf|*.epub)
