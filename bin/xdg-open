@@ -1,7 +1,27 @@
 #!/bin/sh
 case "${1%%:*}" in
   http|https|*.htm|*.html)
-    exec librewolf "$1"
+    # url decode
+    filename=$(echo $1 | echo -e "$(sed 's/+/ /g;s/%\(..\)/\\x\1/g;')")
+    filename=${filename##*/}
+    filename=${filename##*filename=}
+    filename=${filename%%%*}
+    filename=${filename%%&*}
+    filename=${filename%%\?*}
+    case "$filename" in
+      *.mp4|*.webm|*.mkv|*.flac|*.opus|*.mp3|*.m3u8)
+        exec mpv "$1"
+        ;;
+      *.jpg|*.jpeg|*.webp|*.png|*.bmp|*.svg|*.gif|*.tif|*.tiff)
+        curl -sSL "$1" | exec imv -b ffffff -
+        ;;
+      *.pdf|*.epub)
+        curl -sSL "$1" | exec zathura -
+        ;;
+      *)
+        exec librewolf "$1"
+        ;;
+    esac
     ;;
   *.mp4|*.webm|*.mkv|*.flac|*.opus|*.mp3|*.m3u8)
     exec mpv "$1"
