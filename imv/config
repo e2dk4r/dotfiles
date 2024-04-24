@@ -1,0 +1,7 @@
+[binds]
+
+# white background
+w = background #ffffff
+
+# black background
+b = background #000000
