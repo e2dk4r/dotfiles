@@ -40,6 +40,9 @@ echo "  VKD3D_DEBUG='none' wine game.exe"
 echo '  # run with higher io scheduler priority'
 echo '  ionice -c 2 -n 0 wine game.exe'
 
+# https://wiki.winehq.org/FAQ#How_can_I_prevent_Wine_from_changing_the_filetype_associations_on_my_system_or_adding_unwanted_menu_entries.2Fdesktop_links.3F
+wine cmd /c "reg add HKEY_CURRENT_USER\\Software\\Wine\\DllOverrides /v winemenubuilder.exe /t REG_SZ /d \"\" /f" >/dev/null 2>&1
+
 # https://wiki.winehq.org/Useful_Registry_Keys
 # HKEY_CURRENT_USER\Software\Wine\Drivers\Graphics
 #    Which graphic driver to use. (comma seperated)
