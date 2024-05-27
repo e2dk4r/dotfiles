@@ -11,7 +11,7 @@ hp-scan --logging=none --mode=color --resolution=600 --size=a4 --compression=jpe
 
 - Scan gray cycle 10x50mm file at 1200dpi
 ```
-hp-scan --logging=none --mode=color --resolution=1200 --units=mm --box=0,0,10,50 --size= --compression=jpeg --output=page02.jpg
+hp-scan --logging=none --mode=color --resolution=1200 --units=mm --box=0,0,10,50 --compression=jpeg --output=page02.jpg
 ```
 
 # convert
