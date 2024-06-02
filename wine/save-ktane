@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='ktane.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/AppData/Roaming/The Witness" ]; then
+  echo Keep Talking and Nobody Explodes save file not found
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - -C "$WINEHOME" 'AppData/LocalLow/Steel Crate Games/Keep Talking and Nobody Explodes/' | zstd -19 > "$SAVE_PATH"
+
+echo "Keep Talking and Nobody Explodes saves backed into \"$SAVE_PATH\""
