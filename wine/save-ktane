@@ -7,7 +7,7 @@ SAVE_DIR="$HOME/.local/state/gaming"
 SAVE_FILE='ktane.tar.zst'
 SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
 
-if [ ! -e "$WINEHOME/AppData/Roaming/The Witness" ]; then
+if [ ! -e "$WINEHOME/AppData/LocalLow/Steel Crate Games/Keep Talking and Nobody Explodes/" ]; then
   echo Keep Talking and Nobody Explodes save file not found
   exit 1
 fi
