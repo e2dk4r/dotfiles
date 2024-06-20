@@ -7,10 +7,9 @@ export DOSDEVICE_Z="${WINEPREFIX%/*}"
 export WINEHOME="$WINEPREFIX/drive_c/users/$USER"
 export WINEAPPDATADIR="$WINEHOME/AppData/Local"
 
-if [ ! -e "$WINEPREFIX/dosdevices/z:" ]; then
-  echo "run 'wine cmd hostname' first"
-  exit 1
-fi
+wineboot
+# wineboot doesn't wait for prefix to be ready
+wineserver -w
 
 # dont access whole root system
 rm -f "$WINEPREFIX/dosdevices/z:"
