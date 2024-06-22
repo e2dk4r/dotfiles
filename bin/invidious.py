@@ -225,7 +225,7 @@ def main():
             format = formats.get(itag)
 
             if type.startswith('video/'):
-                if format.get('vcodec') == 'vp9':
+                if format and format.get('vcodec') == 'vp9':
                     continue
                 if bitrate > videoBitrate:
                     video = url
