@@ -206,8 +206,8 @@ def main():
         data = json.loads(response.read().decode('utf-8'))
         response.close()
 
-        with open(videoId + '.json', 'w') as file:
-            json.dump(data, file)
+        #with open(videoId + '.json', 'w') as file:
+        #    json.dump(data, file)
 
         print('domain:', domain)
 
