@@ -1,0 +1,24 @@
+From 5a5f69fe9f64181f2c347e62d3558d3e6fb7a717 Mon Sep 17 00:00:00 2001
+From: e2dk4r <43293320+e2dk4r@users.noreply.github.com>
+Date: Mon, 24 Jun 2024 07:40:12 +0300
+Subject: [PATCH] xpad: add GameSir-G7 SE
+
+---
+ drivers/input/joystick/xpad.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 70f0654..1cf9971 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -381,6 +381,7 @@ static const struct xpad_device {
+ 	{ 0x31e3, 0x1310, "Wooting 60HE (ARM)", 0, XTYPE_XBOX360 },
+ 	{ 0x3285, 0x0607, "Nacon GC-100", 0, XTYPE_XBOX360 },
+ 	{ 0x3537, 0x1004, "GameSir T4 Kaleid", 0, XTYPE_XBOX360 },
++	{ 0x3537, 0x1010, "GameSir-G7 SE", 0, XTYPE_XBOXONE },
+ 	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
+ 	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
+ 	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
+-- 
+2.45.0
+
