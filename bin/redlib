@@ -1,0 +1,95 @@
+#!/bin/sh -e
+
+VERSION=v0.34.0
+URL="https://github.com/redlib-org/redlib/releases/download/$VERSION/redlib"
+OUTPUT=/tmp/redlib
+
+OUTPUT_B2SUM=35fbe7fcb37e26a7d6c6b43df7d5cfe368700493bb9de9f5341602b86785a311bd295476823a37bff61c7019f05403456cc20d9db19734f24dd8ecaf03f29d8d
+OUTPUT_SHA256SUM=ed83530b7ece4116a704821d4495f0d49abe47ed32ddac1570e17b119f5b8c21
+OUTPUT_SHA1SUM=c9c50e46f8f1918cbef43538d8ee78457a7eb62d
+OUTPUT_MD5SUM=b648684ac260a47c4757d1a2cbc75369
+
+HAS_CURL=$(curl --version >/dev/null 2>&1 && echo 1 || echo 0)
+HAS_WGET=$(wget --version >/dev/null 2>&1 && echo 1 || echo 0)
+HAS_B2SUM=$(b2sum --version >/dev/null 2>&1 && echo 1 || echo 0)
+HAS_SHA256SUM=$(sha256sum --version >/dev/null 2>&1 && echo 1 || echo 0)
+HAS_SHA1SUM=$(sha1sum --version >/dev/null 2>&1 && echo 1 || echo 0)
+HAS_MD5SUM=$(md5sum --version >/dev/null 2>&1 && echo 1 || echo 0)
+
+OUTPUT_EXIST=$(test -f "$OUTPUT" && echo 1 || echo 0)
+OUTPUT_OK=0
+
+# requirements
+if test "x$HAS_CURL $HAS_WGET" = "x0 0"; then
+  echo curl or wget required
+  exit 1
+fi
+if test "x$HAS_B2SUM $HAS_SHA256SUM $HAS_SHA1SUM $HAS_MD5SUM" = "x0 0 0 0"; then
+  echo b2sum or sha256sum or sha1sum or md5sum required
+  exit 2
+fi
+
+# check file
+if test $HAS_B2SUM -eq 1; then
+  OUTPUT_OK=$(echo "$OUTPUT_B2SUM $OUTPUT" | b2sum -c >/dev/null 2>&1 && echo 1 || echo 0)
+elif test $HAS_SHA256SUM -eq 1; then
+  OUTPUT_OK=$(echo "$OUTPUT_SHA256SUM $OUTPUT" | sha256sum -c >/dev/null 2>&1 && echo 1 || echo 0)
+elif test $HAS_SHA1SUM -eq 1; then
+  OUTPUT_OK=$(echo "$OUTPUT_SHA1SUM $OUTPUT" | sha1sum -c >/dev/null 2>&1 && echo 1 || echo 0)
+elif test $HAS_MD5SUM -eq 1; then
+  OUTPUT_OK=$(echo "$OUTPUT_MD5SUM $OUTPUT" | md5sum -c >/dev/null 2>&1 && echo 1 || echo 0)
+fi
+
+# download if file not exists
+if test "x$OUTPUT_EXIST $OUTPUT_OK" = "x0 0"; then
+  if test $HAS_CURL -eq 1; then
+    curl --location --output "$OUTPUT" $URL
+  elif test $HAS_WGET -eq 1; then
+    wget -O "$OUTPUT" $URL
+  fi
+# continue download if file partially downloaded
+elif test "x$OUTPUT_EXIST $OUTPUT_OK" = "x1 0"; then
+  if test $HAS_CURL -eq 1; then
+    curl --continue-at - --location --output "$OUTPUT" $URL
+  elif test $HAS_WGET -eq 1; then
+    wget --continue -O "$OUTPUT" $URL
+  fi
+fi
+
+# make it executable
+chmod 755 "$OUTPUT"
+
+# system black dark doomone dracula gold gruvboxdark gruvboxlight laserwave light nord rosebox violet
+export REDLIB_DEFAULT_THEME=black
+# default popular all
+export REDLIB_DEFAULT_FRONT_PAGE=popular
+# card clean compact
+export REDLIB_DEFAULT_LAYOUT=card
+# on off
+export REDLIB_DEFAULT_WIDE=
+# hot new top rising controversial
+export REDLIB_DEFAULT_POST_SORT=top
+# confidence top new controversial old
+export REDLIB_DEFAULT_COMMENT_SORT=top
+# on off
+export REDLIB_DEFAULT_SHOW_NSFW=on
+# on off
+export REDLIB_DEFAULT_BLUR_NSFW=
+# on off
+export REDLIB_DEFAULT_USE_HLS=on
+# on off
+export REDLIB_DEFAULT_HIDE_HLS_NOTIFICATION=
+# on off
+export REDLIB_SFW_ONLY=
+# on off
+export REDLIB_DEFAULT_HIDE_AWARDS=
+# <string>
+export REDLIB_BANNER=
+# on off
+export REDLIB_ROBOTS_DISABLE_INDEXING=
+# <+ seperated string>
+export REDLIB_DEFAULT_SUBSCRIPTIONS=linux
+# on off
+export REDLIB_DEFAULT_DISABLE_VISIT_REDDIT_CONFIRMATION=
+export REDLIB_PUSHSHIFT_FRONTEND=
+exec $OUTPUT
