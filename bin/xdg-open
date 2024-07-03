@@ -8,12 +8,26 @@ case "${1%%:*}" in
     filename=${filename%%%*}
     filename=${filename%%&*}
     filename=${filename%%\?*}
+
+    filename=${FILENAME:-$filename}
+
     case "$filename" in
       *.mp4|*.webm|*.mkv|*.flac|*.opus|*.mp3|*.m3u8)
         exec mpv "$1"
         ;;
       *.jpg|*.jpeg|*.webp|*.png|*.bmp|*.svg|*.gif|*.tif|*.tiff)
-        curl -sSL "$1" | exec imv -b ffffff -
+        output=$(mktemp)
+        curl -sSLo $output "$1" || (rm $output; exit 1) 
+
+        imv_argv=''
+        # background is white for most svg files
+        if [ ${filename%%.svg} != $filename ]; then
+          imv_argv="$imv_argv -b ffffff"
+        fi
+        imv_argv=${imv_argv##' '}
+
+        imv $imv_argv $output
+        rm $output
         ;;
       *.pdf|*.epub)
         curl -sSL "$1" | exec zathura -
