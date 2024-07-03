@@ -1,27 +1,42 @@
 #!/bin/sh
+
 case "${1%%:*}" in
   http|https|*.htm|*.html)
-    # url decode
-    filename=$(echo $1 | echo -e "$(sed 's/+/ /g;s/%\(..\)/\\x\1/g;')")
-    filename=${filename##*/}
-    filename=${filename##*filename=}
-    filename=${filename%%%*}
-    filename=${filename%%&*}
-    filename=${filename%%\?*}
+    mime_type=$(curl -I -s -o /dev/null -w '%header{content-type}' "$1")
 
-    filename=${FILENAME:-$filename}
+    if [ -z $mime_type ]; then
+      content_disposition=$(curl -I -s -o /dev/null -w '%header{content-disposition}' "$1")
+      filename="${content_disposition##*filename=}"
+      filename="${filename%%\"}"
+      extension="${filename##*.}"
 
-    case "$filename" in
-      *.mp4|*.webm|*.mkv|*.flac|*.opus|*.mp3|*.m3u8)
+      case "$extension" in
+        mp4|webm|mkv|flac|opus|mp3|m3u8)
+        mime_type=video/unknown
+        ;;
+        jpg|jpeg|webp|png|bmp|gif|tif|tiff)
+        mime_type=image/unknown
+        ;;
+        svg)
+        mime_type=image/svg+xml
+        ;;
+        pdf|epub)
+        mime_type=application/pdf
+        ;;
+      esac
+    fi
+
+    case $mime_type in
+      video/*|audio/*)
         exec mpv "$1"
         ;;
-      *.jpg|*.jpeg|*.webp|*.png|*.bmp|*.svg|*.gif|*.tif|*.tiff)
+      image/*)
         output=$(mktemp)
         curl -sSLo $output "$1" || (rm $output; exit 1) 
 
         imv_argv=''
         # background is white for most svg files
-        if [ ${filename%%.svg} != $filename ]; then
+        if [ "${mime_type%%image/svg*}" != "$mime_type" ]; then
           imv_argv="$imv_argv -b ffffff"
         fi
         imv_argv=${imv_argv##' '}
@@ -29,7 +44,7 @@ case "${1%%:*}" in
         imv $imv_argv $output
         rm $output
         ;;
-      *.pdf|*.epub)
+      application/pdf|application/epub*)
         curl -sSL "$1" | exec zathura -
         ;;
       *)
