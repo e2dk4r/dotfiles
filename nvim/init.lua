@@ -13,6 +13,7 @@ vim.opt.statusline='%<%f %h%m%r%=[0x%B][%{&filetype} %{&fileencoding}][%(%.l,%c%
 -- search
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
+vim.opt.ignorecase = true
 
 -- color
 vim.opt.termguicolors = true
