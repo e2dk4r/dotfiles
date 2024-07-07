@@ -23,6 +23,7 @@ vim.cmd.colorscheme('gruvbox')
 -- clipboard
 vim.keymap.set('n', '<space>y', '"+y')
 vim.keymap.set('n', '<space>p', '"+p')
+vim.keymap.set('n', '<space>yp', ':let @+ = expand("%") . ":" . line(".") | echo "relative path copied"<CR>')
 
 -- diagnostic
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
