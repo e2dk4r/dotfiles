@@ -42,12 +42,9 @@ vim.cmd.cnoreabbrev('amke make')
 vim.cmd.cnoreabbrev('man Man')
 
 -- insert abbreviations
-vim.cmd.iabbrev('todo: TODO(e2dk4r):')
-vim.cmd.iabbrev('TODO: TODO(e2dk4r):')
-vim.cmd.iabbrev('FIXME: FIXME(e2dk4r):')
-vim.cmd.iabbrev('fixme: FIXME(e2dk4r):')
-vim.cmd.iabbrev('NOTE: NOTE(e2dk4r):')
-vim.cmd.iabbrev('note: NOTE(e2dk4r):')
+vim.cmd.iabbrev('todo: TODO:')
+vim.cmd.iabbrev('fixme: FIXME:')
+vim.cmd.iabbrev('note: NOTE:')
 
 -- treesitter
 vim.treesitter.language.add('tsq',        { path = "/usr/lib64/libtree-sitter-tsq.so" })
