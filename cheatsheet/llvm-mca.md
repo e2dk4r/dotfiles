@@ -28,3 +28,7 @@ Or you can combine turning into assembly and analyzing
 ```
 clang -O3 -march=znver3 -S -o - src/critical.c | llvm-mca -mcpu=znver3 
 ```
+
+# References
+
+- [2018 LLVM Developers’ Meeting: A. Biagio & M. Davis “Understanding the performance of code using...”](https://www.youtube.com/embed/Ku2D8bjEGXk)
