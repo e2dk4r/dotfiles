@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='u4.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/Saved Games/Uncharted Legacy of Thieves Collection/" ]; then
+  echo Uncharted Legacy of Thieves Collection save file not found
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - -C "$WINEHOME" 'Saved Games/Uncharted Legacy of Thieves Collection/' | zstd -19 > "$SAVE_PATH"
+
+echo "Uncharted Legacy of Thieves Collection saves backed into \"$SAVE_PATH\""

@@ -59,7 +59,7 @@ wine cmd /c "reg add HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\tlou-i.exe\
 # Uncharted Legacy of Thieves Collection
 ## exits with 'initGpu() failed'
 ## solution #1: use wine's amd_ags_x64
-wine cmd /c "reg add HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\tlou-i.exe\\DllOverrides /v amd_ags_x64 /t REG_SZ /d builtin /f" >/dev/null 2>&1
+wine cmd /c "reg add HKEY_CURRENT_USER\\Software\\Wine\\AppDefaults\\u4.exe\\DllOverrides /v amd_ags_x64 /t REG_SZ /d builtin /f" >/dev/null 2>&1
 ## solution #2: spoof nvidia card
 ## ```dxvk.conf
 ## [u4.exe]
