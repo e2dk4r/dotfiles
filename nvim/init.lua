@@ -93,3 +93,14 @@ vim.keymap.set('n', '<space>s', telescope.lsp_document_symbols, {})
 vim.keymap.set('n', '<space>S', telescope.lsp_workspace_symbols, {})
 vim.keymap.set('n', '<space>d', telescope.diagnostics, {})
 vim.keymap.set('n', '<space>t', telescope.treesitter, {})
+
+-- events
+vim.api.nvim_create_autocmd('VimEnter', {
+  pattern = '*',
+  callback = function(ev)
+    -- meson
+    if vim.fn.filereadable('meson.build') == 1 and vim.fn.isdirectory('build/') then
+      vim.o.makeprg = 'ninja -j0 -C build/'
+    end
+  end
+})
