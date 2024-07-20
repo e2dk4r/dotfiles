@@ -4,7 +4,7 @@ case "${1%%:*}" in
   http|https|*.htm|*.html)
     mime_type=$(curl -I -s -o /dev/null -w '%header{content-type}' "$1")
 
-    if [ -z $mime_type ]; then
+    if [ -z "$mime_type" ]; then
       content_disposition=$(curl -I -s -o /dev/null -w '%header{content-disposition}' "$1")
       filename="${content_disposition##*filename=}"
       filename="${filename%%\"}"
