@@ -13,12 +13,15 @@
 # print
 (lldb) p $rip
 
+## print in hexadecimal
 (lldb) p/x $rip
 (unsigned long) 0x00007ffff7fc071b
 
+## print in decimal
 (lldb) p/d $rip
 (unsigned long) 140737353877275
 
+## print in binary
 (lldb) p/t alpha
 (u32) 0b00000000000000000000000010000010
 
