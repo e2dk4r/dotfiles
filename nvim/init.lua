@@ -33,6 +33,12 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<c-k>', ':silent !clang-format -i %<CR>')
 vim.keymap.set('n', '<c-j>', ':write<CR>')
 vim.keymap.set('n', '<c-l>', ':make<CR>')
+vim.keymap.set('n', '<Tab>', ':bnext<CR>')
+vim.keymap.set('n', '<S-Tab>', ':bprev<CR>')
+
+vim.keymap.set('n', '[d', ':cprevious<CR>')
+vim.keymap.set('n', ']d', ':cnext<CR>')
+vim.keymap.set('n', '=d', ':copen<CR>')
 
 -- command abbreviations
 vim.cmd.cnoreabbrev('git Git')
