@@ -6,17 +6,20 @@ address /i.ytimg.com/142.250.184.150,142.251.140.86,142.251.140.54,216.58.212.22
 # pixeldrain
 address /pixeldrain.com/50.7.236.50,50.7.22.1
 
-# 4cat
-## US OG captcha
-address /4cat.ca/3.33.130.190
+# 4get
+## CA
+address /4get.aishiteiru.moe/51.79.54.208
+## FR
+address /4get.ch/5.196.26.3
+## CA, Cloudflare
+address /4get.plunked.party/172.67.223.77
+## US
+address /4get.sudovanilla.org/35.132.248.236
+## CA
+#address /4get.edmateo.site//
+address /edmateo.site/192.99.246.216
 ## DE
-address /4get.lvkaszus.pl/130.61.218.99
-## DE
-address /4get.etenie.pl/130.162.40.225
-## DE
-address /4get.seitan-ayoub.lol/116.203.251.255
-## DE
-address /4get.hbubli.cc/81.169.168.51
+address /4get.ducks.party/194.62.248.73
 
 # searx
 ## TR
