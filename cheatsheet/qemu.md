@@ -17,3 +17,5 @@ qemu-system-x86_64
 -device usb-host,vendorid=0x3537,productid=0x1010
 ...
 ```
+
+see https://www.qemu.org/docs/master/system/devices/usb.html#connecting-usb-devices
