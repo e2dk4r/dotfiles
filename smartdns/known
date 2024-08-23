@@ -24,7 +24,11 @@ address /4get.ducks.party/194.62.248.73
 # invidious
 ## RO
 address /invidious.flokinet.to/185.247.224.4
-## DE iv.datura.network
+## CZ
+address /yt.drgnz.club/83.208.14.147
+## UA
+address /invidious.nerdvpn.de/62.182.81.28
+## FI iv.datura.network
 address /datura.network/65.109.30.253
 ## DE CF
 address /invidious.lunar.icu/45.145.40.181
