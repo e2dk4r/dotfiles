@@ -1,0 +1,3 @@
+net-misc/curl -ftp -tftp -psl -alt-svc -hsts
+# remove http3
+net-misc/curl -http3 -quic CURL_QUIC: -*

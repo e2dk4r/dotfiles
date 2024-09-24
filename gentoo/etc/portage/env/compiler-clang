@@ -1,0 +1,23 @@
+CC=clang
+CXX=clang++
+LD=ld
+
+AR=llvm-ar
+AS='clang -c'
+CPP=clang-cpp
+NM=llvm-nm
+STRIP=llvm-strip
+RANLIB=llvm-ranlib
+OBJCOPY=llvm-objcopy
+STRINGS=llvm-strings
+OBJDUMP=llvm-objdump
+READELF=llvm-readelf
+ADDR2LINE=llvm-addr2line
+
+COMMON_FLAGS='-march=znver3 -pipe'
+CFLAGS="${COMMON_FLAGS}"
+CXXFLAGS="${COMMON_FLAGS}"
+FCFLAGS="${COMMON_FLAGS}"
+FFLAGS="${COMMON_FLAGS}"
+
+LDFLAGS='-Wl,-O3 -Wl,--as-needed -flto=thin -fuse-ld=mold'

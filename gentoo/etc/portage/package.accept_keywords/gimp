@@ -1,0 +1,5 @@
+=media-gfx/gimp-2.99.18-r1 **
+
+# required by media-gfx/gimp-2.99.18-r1::gentoo
+# required by =gimp-2.99.18-r1 (argument)
+=media-libs/gegl-0.4.48 ~amd64

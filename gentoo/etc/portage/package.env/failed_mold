@@ -1,0 +1,14 @@
+app-text/ghostscript-gpl compiler-clang-thinlto
+
+# mold: error: undefined symbol: __atomic_store
+#media-libs/noise-suppression-for-voice compiler-clang-thinlto
+
+# mold: fatal: lto-llvm-46277a.o: REL-type relocation table is not supported for this target
+#www-client/librewolf compiler-clang-thinlto
+
+dev-debug/lldb compiler-clang-thinlto
+
+# mold: error: R_X86_64_32 relocation at offset 0x72 against symbol `<fragment>' can not be used; recompile with -fPIC
+sys-fs/go-mtpfs compiler-gcc
+
+# vi:ft=bash

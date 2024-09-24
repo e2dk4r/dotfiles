@@ -1,1 +1,0 @@
-net-misc/curl -ftp -tftp -psl -alt-svc -hsts

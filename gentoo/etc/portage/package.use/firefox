@@ -1,0 +1,17 @@
+www-client/firefox -hardened
+
+# firefox/firefox dont have native pipewire support
+www-client/firefox pulseaudio
+
+# performance
+www-client/firefox hwaccel lto pgo
+
+# use system libs
+www-client/firefox system-av1 system-harfbuzz system-icu system-libevent system-libvpx system-jpeg system-png system-python-libs system-webp system-python-libs
+
+# without royalty 
+www-client/firefox eme-free
+www-client/firefox -telemetry
+
+# pipewire screen sharing
+www-client/firefox screencast
