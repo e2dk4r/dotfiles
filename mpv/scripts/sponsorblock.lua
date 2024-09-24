@@ -17,6 +17,9 @@ local options = {
 
 	-- Set this to "true" to use sha256HashPrefix instead of videoID
 	hash = "",
+
+  -- Overwrite videoID
+  videoId = "",
 }
 
 opt.read_options(options)
@@ -39,20 +42,21 @@ function skip_ads(name,pos)
 end
 
 function file_loaded()
-	local video_path = mp.get_property("path", "")
-	local video_referer = string.match(mp.get_property("http-header-fields", ""), "Referer:([^,]+)") or ""
+   local video_path = mp.get_property("path", "")
+   local video_referer = string.match(mp.get_property("http-header-fields", ""), "Referer:([^,]+)") or ""
 
-	local urls = {
-		"ytdl://youtu%.be/([%w-_]+).*",
-		"ytdl://w?w?w?%.?youtube%.com/v/([%w-_]+).*",
-		"https?://youtu%.be/([%w-_]+).*",
-		"https?://w?w?w?%.?youtube%.com/v/([%w-_]+).*",
-		"/watch.*[?&]v=([%w-_]+).*",
-		"/embed/([%w-_]+).*",
-		"^ytdl://([%w-_]+)$",
-		"-([%w-_]+)%.",
-	}
-	local youtube_id = mp.get_opt('sponsorblock-videoId')
+   local urls = {
+        "ytdl://youtu%.be/([%w-_]+).*",
+        "ytdl://w?w?w?%.?youtube%.com/v/([%w-_]+).*",
+        "https?://youtu%.be/([%w-_]+).*",
+        "https?://w?w?w?%.?youtube%.com/v/([%w-_]+).*",
+        "/watch.*[?&]v=([%w-_]+).*",
+        "/embed/([%w-_]+).*",
+        "^ytdl://([%w-_]+)$",
+        "-([%w-_]+)%.",
+   }
+
+  local youtube_id = options.videoId
   if youtube_id == nil then
     local purl = mp.get_property("metadata/by-key/PURL", "")
     for i,url in ipairs(urls) do
