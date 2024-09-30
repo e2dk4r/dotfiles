@@ -1,0 +1,61 @@
+#!/bin/sh -e
+STORAGE_COLD=$HOME/vms
+STORAGE_HOT=/tmp/vms
+HOSTNAME=${0##*/}
+COMPRESSED_DISK=$STORAGE_COLD/$HOSTNAME.qcow2.zst
+DISK=$STORAGE_HOT/$HOSTNAME.qcow2
+CPU=8
+MEMORY=8G
+
+KERNEL=$HOSTNAME-bzImage
+CMDLINE='root=/dev/vda1 mitigations=off noapic notsc tsc=unstable'
+
+if [ ! -f $DISK ]; then
+  mkdir -p $(dirname $DISK)
+  zstd --decompress -o $DISK $COMPRESSED_DISK
+fi
+
+# display backend
+  #-display gtk,gl=on \
+  #-display sdl,gl=on \
+
+# use one or other
+  #-device virtio-vga-gl,xres=1920,yres=1080 \
+  #-device virtio-gpu-gl,xres=1920,yres=1080 \
+
+# use console
+# replace with -daemonize,-display,-device *gpu|vga*
+  #-nographic \
+  #-serial mon:stdio \
+  
+# virtiofs sharing
+VIRTIOFSD=/usr/libexec/virtiofsd
+SHARED=/tmp/download
+SHARED_SOCKET=$STORAGE_HOT/virtiofsd.sock
+if [ ! -d $SHARED ]; then
+  mkdir -p $SHARED
+fi
+rm -f $SHARED_SOCKET || (echo cannot remove shared socket && exit 1)
+$VIRTIOFSD --cache never --socket-path $SHARED_SOCKET --socket-group $(id -un) --shared-dir $SHARED &
+
+exec qemu-system-x86_64 \
+  -nodefaults \
+  -daemonize \
+  -display gtk,gl=on \
+  -device virtio-gpu-gl,xres=1920,yres=1080 \
+  -enable-kvm \
+  -machine type=q35,accel=kvm \
+  -object rng-random,id=rng0,filename=/dev/urandom -device virtio-rng-pci,rng=rng0 \
+  -cpu host \
+  -smp $CPU \
+  -m $MEMORY \
+  -drive aio=io_uring,file=$DISK,if=virtio \
+  -object memory-backend-file,size=$MEMORY,id=mem,mem-path=/dev/shm,share=on -numa node,memdev=mem \
+  -chardev socket,id=char_virtiofs_fs,path=$SHARED_SOCKET -device vhost-user-fs-pci,queue-size=1024,chardev=char_virtiofs_fs,tag=shared \
+  -nic user,model=virtio-net-pci \
+  -audiodev pipewire,id=snd0 \
+  -device ac97,audiodev=snd0 \
+  -device usb-ehci -device usb-tablet \
+  -kernel "$KERNEL" -append "$CMDLINE" \
+  -name "$HOSTNAME" \
+  "$@" 
