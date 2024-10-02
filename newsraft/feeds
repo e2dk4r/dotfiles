@@ -1,0 +1,8 @@
+@ Youtube
+https://inv.ngn.tf/feed/channel/UCCuoqzrsHlwv1YyPKLuMDUQ "Jonathan Blow"
+https://inv.ngn.tf/feed/channel/UC3ts8coMP645hZw9JSD3pqQ "Andreas Kling"
+https://inv.ngn.tf/feed/channel/UCkT7pg-YFt3k1N17q4vIAhg "Ladybird Browser"
+
+@ Software
+$(GithubReleases2JsonFeed.sh libsdl-org/SDL 'SDL Releases') "SDL Releases"
+$(GithubReleases2JsonFeed.sh e2dk4r/handmadehero 'Handmadehero Releases') "Handmadehero Releases"
