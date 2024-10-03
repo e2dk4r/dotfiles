@@ -1,8 +1,18 @@
+@ News
+https://inv.ngn.tf/feed/channel/UChIs72whgZI9w6d6FhwGGHA "Gamers Nexus"
+
+@ Comedy
+https://feeds.soundcloud.com/users/soundcloud:users:24758916/sounds.rss "Bill Burr - theMonday Morning Podcast Verified"
+
 @ Youtube
 https://inv.ngn.tf/feed/channel/UCCuoqzrsHlwv1YyPKLuMDUQ "Jonathan Blow"
 https://inv.ngn.tf/feed/channel/UC3ts8coMP645hZw9JSD3pqQ "Andreas Kling"
 https://inv.ngn.tf/feed/channel/UCkT7pg-YFt3k1N17q4vIAhg "Ladybird Browser"
 
 @ Software
-$(GithubReleases2JsonFeed.sh libsdl-org/SDL 'SDL Releases') "SDL Releases"
-$(GithubReleases2JsonFeed.sh e2dk4r/handmadehero 'Handmadehero Releases') "Handmadehero Releases"
+https://github.com/libsdl-org/SDL/releases.atom "SDL Releases"
+https://github.com/e2dk4r/handmadehero/releases.atom "Handmadehero Releases"
+https://github.com/swaywm/sway/releases.atom "sway Releases"
+$(GitlabTags2JsonFeed.sh gitlab.freedesktop.org mesa/mesa) "mesa"
+https://gitlab.freedesktop.org/pipewire/pipewire/-/releases.atom "Pipewire"
+https://gitlab.winehq.org/wine/wine/-/releases.atom "WINE"
