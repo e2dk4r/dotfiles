@@ -16,20 +16,26 @@ fi
 # - draft: bool
 # - prerelase: bool
 
-REPO=libsdl-org/SDL
-REPO="$1"
-TITLE="SDL Releases"
-TITLE="$2"
+REPO="${1:-libsdl-org/SDL}"
+TITLE="${2:-SDL Releases}"
 PAGE=1
 PER_PAGE=3
 
-FILTER=''
-FILTER="$FILTER{"
-FILTER="$FILTER  version: .[0].html_url | split(\"/\")[:-2] | join(\"/\"),"
-FILTER="$FILTER  title: \"$TITLE\","
-FILTER="$FILTER  home_page_url: .[0].html_url | split(\"/\")[:-3] | join(\"/\"),"
-FILTER="$FILTER  feed_url: .[0].html_url | split(\"/\")[:-2] | join(\"/\"),"
-FILTER="$FILTER  items: map({id: .id, date_published: .published_at, title: .name, url: .html_url, content_text: .body })"
-FILTER="$FILTER}"
+FILTER=$(cat <<EOF
+{
+  version: .[0].html_url | split("/")[:-2] | join("/"),
+  title: "$TITLE",
+  home_page_url: .[0].html_url | split("/")[:-3] | join("/"),
+  feed_url: .[0].html_url | split("/")[:-2] | join("/"),
+  items: map({
+    id: .id,
+    date_published: .published_at,
+    title: .name,
+    url: .html_url,
+    content_text: .body
+  })
+}
+EOF
+)
 
 exec curl -sSL "https://api.github.com/repos/$REPO/releases?page=$PAGE&per_page=$PER_PAGE" | jq -c "$FILTER"
