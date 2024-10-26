@@ -1,4 +1,14 @@
-font=/usr/share/fonts/cascadia-code/CascadiaCode.ttf
+font=/usr/share/fonts/AtkinsonHyperlegible/AtkinsonHyperlegible-Regular.ttf
 hint-font=false
 ascii-input=true
 late-keyboard-init=true
+width=500
+height=300
+outline-width=0
+border-width=1
+prompt-text="  "
+background-color=#000000
+text-color=#3f3f46
+selection-color=#d4d4d8
+border-color=#701a75
+input-color=#86198f

@@ -1,22 +1,26 @@
+# Youtube feeds
+## using youtube
+#https://www.youtube.com/feeds/videos.xml?channel_id=$CHANNEL_ID "$CHANNEL_NAME"
+## using invidious
+#https://inv.ngn.tf/feed/channel/$CHANNEL_ID "$CHANNEL_NAME"
+
 @ News < reload-period 1440; # 1 days
 https://www.phoronix.com/rss.php "phoronix"
 https://www.youtube.com/feeds/videos.xml?channel_id=UChIs72whgZI9w6d6FhwGGHA "Gamers Nexus"
-https://inv.ngn.tf/feed/channel/UChIs72whgZI9w6d6FhwGGHA "Gamers Nexus"
 
 @ Comedy
 https://feeds.soundcloud.com/users/soundcloud:users:24758916/sounds.rss "Bill Burr - theMonday Morning Podcast Verified" < reload-period 5760; item-limit 50; # 4 days
 
 @ Youtube < reload-period 1440; # 1 days
-# You can also get from https://www.youtube.com/feeds/videos.xml?channel_id=$CHANNEL
-https://inv.ngn.tf/feed/channel/UCCuoqzrsHlwv1YyPKLuMDUQ "Jonathan Blow"
-https://inv.ngn.tf/feed/channel/UC3ts8coMP645hZw9JSD3pqQ "Andreas Kling"
-https://inv.ngn.tf/feed/channel/UCkT7pg-YFt3k1N17q4vIAhg "Ladybird Browser"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCCuoqzrsHlwv1YyPKLuMDUQ "Jonathan Blow"
+https://www.youtube.com/feeds/videos.xml?channel_id=UC3ts8coMP645hZw9JSD3pqQ "Andreas Kling"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCkT7pg-YFt3k1N17q4vIAhg "Ladybird Browser"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCV0t1y4h_6-2SqEpXBXgwFQ "AngeTheGreat"
 
 @ Software < reload-period 1440; # 1 days
 https://github.com/libsdl-org/SDL/releases.atom "SDL Releases"
 https://github.com/e2dk4r/handmadehero/releases.atom "Handmadehero Releases"
 https://github.com/swaywm/sway/releases.atom "sway Releases"
-https://github.com/jart/cosmopolitan/releases.atom "Cosmopolitan Releases"
 https://gitlab.freedesktop.org/pipewire/pipewire/-/releases.atom "pipewire Releases"
 https://gitlab.winehq.org/wine/wine/-/releases.atom "WINE"
 https://ffmpeg.org/main.rss "FFmpeg"
@@ -25,3 +29,6 @@ https://ffmpeg.org/main.rss "FFmpeg"
 #https://gitlab.freedesktop.org/mesa/mesa/-/tags?format=atom "mesa Tags"
 #$(GitlabTags2JsonFeed.sh gitlab.freedesktop.org mesa/mesa) "mesa Tags"
 https://www.mesa3d.org/news/index.xml "The Mesa 3D Graphics Library"
+
+@ Games < reload-period 60 * 60 * 24 * 30; # 30 days
+https://steamdb.info/api/PatchnotesRSS/?appid=1145350 "Hades II"

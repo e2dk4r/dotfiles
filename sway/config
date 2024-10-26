@@ -4,6 +4,7 @@ set $down  j
 set $up    k
 set $right l
 
+#set $font "Atkinson Hyperlegible"
 set $font  CascadiaCode
 
 #set $term zutty -e 'cd /tmp' -font $font -fontsize 20 -autoCopy -saveLines 0
@@ -11,7 +12,7 @@ set $font  CascadiaCode
 set $term footclient '--working-directory=/tmp' -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
 #set $term foot '--working-directory=/tmp' -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
 
-set $menuopts 'librewolf\nyuzu\ngimp\nwin11\nandroid7\nzathura'
+set $menuopts 'firefox\ngimp\ndebian\nwin11\nandroid7\nzathura'
 #set $menu printf $menuopts | kickoff --from-stdin
 #set $menu printf $menuopts | bemenu --fn '$font 16' -l 8 | xargs swaymsg exec --
 set $menu printf $menuopts | tofi | xargs swaymsg exec --
@@ -22,9 +23,12 @@ focus_follows_mouse no
 
 # Output configuration
 #----------------------------------------------------------------
-output DP-1 mode 1920x1080@60.000Hz pos 1080 0 adaptive_sync on
-output DP-2 mode 1920x1080@60.000Hz pos 0 0 transform 90 adaptive_sync on
+#output DP-1 mode 1920x1080@60.000Hz pos 1080 0 adaptive_sync on
+#output DP-2 mode 1920x1080@60.000Hz pos 0 0 transform 90 adaptive_sync on
 output * bg #000000 solid_color
+
+# Philips Consumer Electronics Company PHL 272E2F
+output DP-1 mode 1920x1080@60.000Hz adaptive_sync on color_profile icc /usr/share/color/icc/272E2F.icm
 
 # |------|
 # | DP-2 |
@@ -90,6 +94,7 @@ bindsym XF86AudioPrev        exec playerctl previous
 bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bindsym XF86AudioMute        exec wpctl set-mute   @DEFAULT_AUDIO_SINK@ toggle
+#bindsym XF86PowerOff         exec doas poweroff
 
 # move around
 bindsym $mod+$left  focus left
@@ -149,16 +154,23 @@ bindsym $mod+space focus mode_toggle
 # Move focus to the parent container
 bindsym $mod+a focus parent
 
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+
 # Last tab
 bindsym $mod+tab workspace back_and_forth
 
 # Resizing containers
 #----------------------------------------------------------------
 mode "resize" {
-# left will shrink the containers width
-# right will grow the containers width
-# up will shrink the containers height
-# down will grow the containers height
+  # left will shrink the containers width
+  # right will grow the containers width
+  # up will shrink the containers height
+  # down will grow the containers height
   bindsym $left  resize grow   width  15px
   bindsym $right resize shrink width  15px
   bindsym $down  resize shrink height 15px
@@ -184,8 +196,8 @@ bar {
 
   colors {
     statusline #ffffff
-      background #000000
-      inactive_workspace #32323200 #32323200 #5c5c5c
+    background #000000
+    inactive_workspace #32323200 #32323200 #5c5c5c
   }
 }
 
@@ -202,13 +214,13 @@ exec swayidle -w \
        timeout 300 'swaymsg output \* dpms off' \
        resume 'swaymsg output \* dpms on'
 
-exec gamepad_idle_inhibit
+exec sh -c 'kill -9 $(pidof gamepad_idle_inhibit); exec gamepad_idle_inhibit'
 
 # screenshare: xdg-desktop-portal-wlr
 #exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # terminal
-exec_always foot --server
+exec foot --server
 
 # sound
-exec gentoo-pipewire-launcher
+exec gentoo-pipewire-launcher restart

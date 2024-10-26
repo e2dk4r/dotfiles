@@ -8,7 +8,8 @@ address /pixeldrain.com/203.23.179.10,203.23.179.11,203.23.179.12
 
 # 4get
 ## CL
-address /4get.nadeko.net/186.105.168.12
+address /nadeko.net/186.105.190.207
+#address /4get.nadeko.net/186.105.190.207
 ## DE
 address /4get.bloat.cat/45.13.225.214
 ## DE
@@ -34,7 +35,7 @@ address /yt.drgnz.club/83.208.14.147
 ## FI
 address /invidious.privacyredirect.com/109.107.190.203
 ## CL
-address /inv.nadeko.net/186.105.168.12
+#address /inv.nadeko.net/186.105.190.207
 ## DE - CF
 address /invidious.lunar.icu/45.145.40.181
 ## FR
