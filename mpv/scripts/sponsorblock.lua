@@ -57,7 +57,7 @@ function file_loaded()
    }
 
   local youtube_id = options.videoId
-  if youtube_id == nil then
+  if not youtube_id or youtube_id == '' then
     local purl = mp.get_property("metadata/by-key/PURL", "")
     for i,url in ipairs(urls) do
       youtube_id = youtube_id or string.match(video_path, url) or string.match(video_referer, url) or string.match(purl, url)

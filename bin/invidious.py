@@ -3,7 +3,23 @@ from sys import argv, stderr
 from urllib.error import URLError, HTTPError
 from urllib.request import urlopen 
 import json
-from os import system
+import subprocess
+
+domains = (
+  'inv.ngn.tf', # TR
+  'yt.drgnz.club', # CZ
+  'iv.nboeck.de', # DE
+  'iv.melmac.space', # DE
+  'yt.artemislena.eu', # DE
+  'yt.cdaut.de', # DE
+  'iv.datura.network', # FI
+  'invidious.nerdvpn.de', # UA
+  'inv.nadeko.net', # CL
+  'invidious.privacydev.net', # FR
+  'invidious.flokinet.to', # RO
+  'invidious.protokolla.fi', # BG
+  'invidious.lunar.icu', # DE, CF
+)
 
 # see: https://github.com/yt-dlp/yt-dlp/raw/master/yt_dlp/extractor/youtube.py
 formats = {
@@ -113,6 +129,25 @@ formats = {
     '399': {'ext': 'mp4', 'height': 1080, 'format_note': 'DASH video', 'vcodec': 'av01.0.08M.08'},
     '400': {'ext': 'mp4', 'height': 1440, 'format_note': 'DASH video', 'vcodec': 'av01.0.12M.08'},
     '401': {'ext': 'mp4', 'height': 2160, 'format_note': 'DASH video', 'vcodec': 'av01.0.12M.08'},
+
+'229': {'ext': 'mp4', 'height': 240,  'format_note': 'DASH video', 'vcodec': 'avc1.4D4015'},
+'230': {'ext': 'mp4', 'height': 360,  'format_note': 'DASH video', 'vcodec': 'avc1.4D401E'},
+'231': {'ext': 'mp4', 'height': 480,  'format_note': 'DASH video', 'vcodec': 'avc1.4D401F'},
+'232': {'ext': 'mp4', 'height': 720,  'format_note': 'DASH video', 'vcodec': 'avc1.4D401F'},
+'269': {'ext': 'mp4', 'height': 144,  'format_note': 'DASH video', 'vcodec': 'avc1.4D400C'},
+'270': {'ext': 'mp4', 'height': 1080, 'format_note': 'DASH video', 'vcodec': 'avc1.640028'},
+
+'571': {'ext': 'mp4', 'height': 4320, 'format_note': 'DASH video', 'vcodec': 'av01.0.16M.08'},
+
+'602': {'ext': 'mp4', 'height': 144,  'format_note': 'DASH video', 'vcodec': 'vp09.00.10.08'},
+'603': {'ext': 'mp4', 'height': 144,  'format_note': 'DASH video', 'vcodec': 'vp09.00.11.08'},
+'604': {'ext': 'mp4', 'height': 240,  'format_note': 'DASH video', 'vcodec': 'vp09.00.20.08'},
+'605': {'ext': 'mp4', 'height': 360,  'format_note': 'DASH video', 'vcodec': 'vp09.00.21.08'},
+'606': {'ext': 'mp4', 'height': 480,  'format_note': 'DASH video', 'vcodec': 'vp09.00.30.08'},
+'609': {'ext': 'mp4', 'height': 720,  'format_note': 'DASH video', 'vcodec': 'vp09.00.31.08'},
+'614': {'ext': 'mp4', 'height': 1080, 'format_note': 'DASH video', 'vcodec': 'vp09.00.40.08'},
+'620': {'ext': 'mp4', 'height': 1440, 'format_note': 'DASH video', 'vcodec': 'vp09.00.50.08'},
+'625': {'ext': 'mp4', 'height': 2160, 'format_note': 'DASH video', 'vcodec': 'vp09.00.50.08'},
 }
 def usage():
     print(f'{argv[0]} <invidious>')
@@ -169,24 +204,6 @@ def main():
 
     print('videoId:', videoId)
 
-    # select domain
-    domains = ('yt.drgnz.club',
-               'invidious.flokinet.to',
-               'iv.nboeck.de'
-               'yt.cdaut.de',
-               'iv.datura.network',
-               'invidious.lunar.icu',
-               'invidious.nerdvpn.de',
-               'invidious.einfachzocken.eu',
-               'yt.oelrichsgarcia.de',
-               'iv.melmac.space',
-               'yt.artemislena.eu',
-               'invidious.protokolla.fi',
-               'anontube.lvkaszus.pl',
-               'inv.seitan-ayoub.lol',
-               'invidious.privacydev.net',
-               )
-
     for domain in domains:
         url = f'https://{domain}/api/v1/videos/{videoId}'
 
@@ -206,12 +223,10 @@ def main():
         data = json.loads(response.read().decode('utf-8'))
         response.close()
 
-        #with open(videoId + '.json', 'w') as file:
-        #    json.dump(data, file)
-
         print('domain:', domain)
 
         # select title and videoId
+        title = data['title']
         adaptiveFormats = data['adaptiveFormats']
         video = ''
         videoBitrate = 0
@@ -225,7 +240,9 @@ def main():
             format = formats.get(itag)
 
             if type.startswith('video/'):
-                if format and format.get('vcodec') == 'vp9':
+                if int(format.get('height')) > 1080:
+                    continue
+                if format.get('vcodec') == 'vp9':
                     continue
                 if bitrate > videoBitrate:
                     video = url
@@ -236,12 +253,19 @@ def main():
                     audio = url
                     audioBitrate = bitrate
 
-        if len(video) == 0:
-            system(f"mpv '{audio}'")
-            break
+        command = [ 'mpv' ]
+        command += [ f"--force-media-title={title}" ]
+        if len(argv) > 2:
+          command += [ ' '.join(argv[1:-1]) ]
+        command += [ f"--script-opts=sponsorblock-videoId={videoId}" ]
 
-        system(f"mpv {' '.join(argv[1:-1])} '{video}' '--audio-file={audio}' '--script-opts=sponsorblock-videoId={videoId}'")
-        break
+        if video == '':
+            command += [ audio ]
+        else:
+            command += [ video, f"--audio-file={audio}" ]
+
+        subprocess.run(command)
+        exit(0)
 
 if __name__ == '__main__':
     main()
