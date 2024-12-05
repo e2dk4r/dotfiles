@@ -9,4 +9,5 @@ fi
 echo '' | fzf \
   --preview-window='up:90%' \
   --print-query \
+  --query . \
   --preview "jq --color-output -r {q} $input"
