@@ -1,0 +1,19 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+SAVE_DIR="$HOME/.local/state/gaming"
+SAVE_FILE='cult-of-the-lamb.tar.zst'
+SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+
+if [ ! -e "$WINEHOME/AppData/LocalLow/Massive Monster/Cult Of The Lamb/" ]; then
+  echo 'Cult of the Lamb save file not found'
+  exit 1
+fi
+
+mkdir -p "$SAVE_DIR"
+
+tar cf - --exclude '*.log' --exclude 'Unity/*' -C "$WINEHOME" 'AppData/LocalLow/Massive Monster/Cult Of The Lamb/' | zstd -19 > "$SAVE_PATH"
+
+echo "Cult of the Lamb saves backed into \"$SAVE_PATH\""
