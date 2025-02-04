@@ -3,6 +3,7 @@ set recolor true
 set continuous-hist-save true
 set window-title-basename true
 set selection-clipboard clipboard
+set guioptions "hv"
 
 set font "monospace 16"
 
