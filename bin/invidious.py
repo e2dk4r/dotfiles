@@ -148,6 +148,19 @@ formats = {
 '614': {'ext': 'mp4', 'height': 1080, 'format_note': 'DASH video', 'vcodec': 'vp09.00.40.08'},
 '620': {'ext': 'mp4', 'height': 1440, 'format_note': 'DASH video', 'vcodec': 'vp09.00.50.08'},
 '625': {'ext': 'mp4', 'height': 2160, 'format_note': 'DASH video', 'vcodec': 'vp09.00.50.08'},
+
+
+'330': {'ext': 'webm', 'height': 128, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'331': {'ext': 'webm', 'height': 214, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'332': {'ext': 'webm', 'height': 320, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'333': {'ext': 'webm', 'height': 428, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'334': {'ext': 'webm', 'height': 640, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'335': {'ext': 'webm', 'height': 960, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'336': {'ext': 'webm', 'height': 1280, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'337': {'ext': 'webm', 'height': 1920, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+
+'779': {'ext': 'webm', 'height': 608, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+'780': {'ext': 'webm', 'height': 608, 'format_note': 'DASH video', 'vcodec': 'vp9'},
 }
 def usage():
     print(f'{argv[0]} <invidious>')
@@ -220,8 +233,17 @@ def main():
         except TimeoutError:
             print(domain, 'timeout', file=stderr)
             continue
-        data = json.loads(response.read().decode('utf-8'))
+
+        try:
+            data = json.loads(response.read().decode('utf-8'))
+        except json.decoder.JSONDecodeError:
+            print(domain, f'json decoding error', file=stderr)
+            response.close()
+            continue
         response.close()
+
+        #with open('/tmp/json', 'w', encoding='utf-8') as f:
+        #  f.write(json.dumps(data))
 
         print('domain:', domain)
 
@@ -233,6 +255,8 @@ def main():
         audio = ''
         audioBitrate = 0
         for adaptiveFormat in adaptiveFormats:
+            if 'bitrate' not in adaptiveFormat:
+                continue
             url = adaptiveFormat['url']
             bitrate = int(adaptiveFormat['bitrate'])
             type = adaptiveFormat['type']
