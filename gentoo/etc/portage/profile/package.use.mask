@@ -1,4 +1,5 @@
 net-libs/nodejs -lto
-dev-lang/python -lto
+dev-lang/python -lto -jit
 media-libs/libsdl2 -custom-cflags
 sys-libs/glibc -custom-cflags
+sys-devel/gcc default-stack-clash-protection default-znow

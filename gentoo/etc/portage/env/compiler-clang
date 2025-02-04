@@ -14,7 +14,7 @@ OBJDUMP=llvm-objdump
 READELF=llvm-readelf
 ADDR2LINE=llvm-addr2line
 
-COMMON_FLAGS='-march=znver3 -pipe'
+COMMON_FLAGS='-march=znver3 -O2 -pipe'
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"

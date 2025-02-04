@@ -12,7 +12,6 @@ app-emulation/wine-proton ~amd64
 app-emulation/wine-staging ~amd64
 app-emulation/wine-mono ~amd64
 app-emulation/wine-gecko ~amd64
-app-emulation/wine-mono ~amd64
 
 # required by termshark (argument)
 net-analyzer/termshark ~amd64
@@ -88,3 +87,5 @@ x11-libs/cairo ~amd64
 # yuzu
 # required by simpleini (argument)
 =dev-cpp/simpleini-4.22 ~amd64
+# required by =yt-dlp-9999 (argument)
+=net-misc/yt-dlp-9999 **

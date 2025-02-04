@@ -1,2 +1,3 @@
 app-emulation/qemu ~amd64
 app-emulation/virtiofsd ~amd64
+sys-firmware/seabios-bin ~amd64 

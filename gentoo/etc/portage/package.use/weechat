@@ -1,0 +1,2 @@
+net-irc/weechat -alias -buflist -charset -exec -fifo -fset -logger -lua -nls -perl -python -relay -relay-api -ruby -scripts -spell -trigger -typing -xfer -zstd
+net-irc/weechat irc 

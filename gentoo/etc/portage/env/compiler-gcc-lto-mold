@@ -3,6 +3,7 @@ CXX=g++
 AR=gcc-ar
 NM=gcc-nm
 RANLIB=gcc-ranlib
+OBJCOPY=objcopy
 LD=mold
 
 COMMON_FLAGS='-march=znver3 -O2 -pipe -flto=32'

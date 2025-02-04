@@ -1,0 +1,108 @@
+From 5c3744ef7b50c01c4d5d543f9b5ad9702fac164a Mon Sep 17 00:00:00 2001
+From: webstrand <webstrand@gmail.com>
+Date: Sun, 15 Sep 2024 20:40:52 -0400
+Subject: [PATCH] Add set_persist_pan_zoom <true|false>
+
+Option to preserve pan/zoom when switching between images
+---
+ doc/imv.1.txt |  3 +++
+ src/imv.c     | 32 +++++++++++++++++++++++++++++++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+
+diff --git a/doc/imv.1.txt b/doc/imv.1.txt
+index 61e0018..c2b8c8e 100644
+--- a/doc/imv.1.txt
++++ b/doc/imv.1.txt
+@@ -148,6 +148,9 @@ Commands can be entered by pressing *:*. imv supports the following commands:
+ *toggle_playing*::
+ 	Toggle playback of the current image if it is an animated gif.
+ 
++*persist_pan_zoom <true|false>*::
++	When switching between images the pan/zoom of the viewport will not be reset.
++
+ *scaling* <none|shrink|full|crop|next>::
+ 	Set the current scaling mode. Setting the mode to 'next' advances it to the
+ 	next mode in the list.
+diff --git a/src/imv.c b/src/imv.c
+index ce0c43a..71dd5e0 100644
+--- a/src/imv.c
++++ b/src/imv.c
+@@ -119,6 +119,9 @@ struct imv {
+   bool need_rescale;
+   bool cache_invalidated;
+ 
++  /* keep the pan/zoom persistent between image */
++  bool persist_pan_zoom;
++
+   /* traverse sub-directories for more images */
+   bool recursive_load;
+ 
+@@ -212,6 +215,7 @@ static void command_center(struct list *args, const char *argstr, void *data);
+ static void command_reset(struct list *args, const char *argstr, void *data);
+ static void command_next_frame(struct list *args, const char *argstr, void *data);
+ static void command_toggle_playing(struct list *args, const char *argstr, void *data);
++static void command_set_persist_pan_zoom(struct list *args, const char *argstr, void *data);
+ static void command_set_scaling_mode(struct list *args, const char *argstr, void *data);
+ static void command_set_upscaling_method(struct list *args, const char *argstr, void *data);
+ static void command_set_slideshow_duration(struct list *args, const char *argstr, void *data);
+@@ -528,6 +532,7 @@ struct imv *imv_create(void)
+   imv->initial_height = 720;
+   imv->need_redraw = true;
+   imv->need_rescale = true;
++  imv->persist_pan_zoom = true;
+   imv->scaling_mode = SCALING_FULL;
+   imv->loop_input = true;
+   imv->overlay.font.name = strdup("Monospace");
+@@ -576,6 +581,7 @@ struct imv *imv_create(void)
+   imv_command_register(imv->commands, "reset", &command_reset);
+   imv_command_register(imv->commands, "next_frame", &command_next_frame);
+   imv_command_register(imv->commands, "toggle_playing", &command_toggle_playing);
++  imv_command_register(imv->commands, "persist_pan_zoom", &command_set_persist_pan_zoom);
+   imv_command_register(imv->commands, "scaling", &command_set_scaling_mode);
+   imv_command_register(imv->commands, "upscaling", &command_set_upscaling_method);
+   imv_command_register(imv->commands, "slideshow", &command_set_slideshow_duration);
+@@ -1297,10 +1303,15 @@ static void handle_new_image(struct imv *imv, struct imv_image *image, int frame
+ {
+   if (imv->current_image) {
+     imv_image_free(imv->current_image);
++    if(!imv->persist_pan_zoom) {
++      imv->need_rescale = true;
++    }
++  }
++  else {
++    imv->need_rescale = true;
+   }
+   imv->current_image = image;
+   imv->need_redraw = true;
+-  imv->need_rescale = true;
+   imv->loading = false;
+   imv->next_frame.due = frametime ? cur_time() + frametime * 0.001 : 0.0;
+   imv->next_frame.duration = 0.0;
+@@ -1911,6 +1922,25 @@ static void command_toggle_playing(struct list *args, const char *argstr, void *
+   imv_viewport_toggle_playing(imv->view);
+ }
+ 
++static void command_set_persist_pan_zoom(struct list *args, const char *argstr, void *data) {
++  (void)args;
++  (void)argstr;
++  struct imv *imv = data;
++
++  if (args->len != 2) {
++    return;
++  }
++
++  const char *mode = args->items[1];
++
++  if(!strcmp(mode, "true")) {
++    imv->persist_pan_zoom = true;
++  }
++  else if(!strcmp(mode, "false")) {
++    imv->persist_pan_zoom = false;
++  }
++}
++
+ static void command_set_scaling_mode(struct list *args, const char *argstr, void *data)
+ {
+   (void)args;
+-- 
+2.45.2

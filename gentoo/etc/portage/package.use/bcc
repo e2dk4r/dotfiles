@@ -1,0 +1,2 @@
+dev-util/bcc -lua
+sys-apps/iproute2 bpf

@@ -3,6 +3,7 @@ CXX=g++
 AR=ar
 NM=nm
 RANLIB=ranlib
+OBJCOPY=objcopy
 LD=ld.bfd
 
 COMMON_FLAGS='-march=znver3 -O2 -pipe'

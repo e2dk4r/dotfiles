@@ -5,6 +5,7 @@ app-admin/sudo -ssl -sendmail
 dev-libs/libzip -ssl
 app-crypt/rhash -ssl
 dev-libs/libevent -ssl
+gui-libs/libdecor -dbus -gtk
 
 # ssl used by portage to verify rsync
 app-crypt/gnupg -bzip2 -smartcard 

@@ -1,1 +1,2 @@
-sys-devel/clang-common default-lld
+# move sys-devel/clang-common llvm-core/clang-common
+llvm-core/clang-common default-lld
