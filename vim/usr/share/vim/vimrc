@@ -1,0 +1,66 @@
+" normal
+"set number relativenumber
+set expandtab tabstop=2 shiftwidth=2
+set nowrap
+set nocompatible
+set nobackup nowritebackup noswapfile
+set encoding=utf-8 fileencoding=utf-8
+set autoread
+
+" status line
+set laststatus=2
+set statusline=%<%f\ %h%m%r%=[0x%B][%{&filetype}\ %{&fileencoding}][%(%.l,%c%V%)\ %P]
+
+" search
+set hlsearch
+set incsearch
+set ignorecase
+
+" color
+set termguicolors
+colorscheme industry
+
+set keywordprg=:Man
+
+" clipboard
+nmap <space>y  "+y
+nmap <space>p  "+p
+#nmap <space>yp :let @+ = expand("%") . ":" . line(".") | echo "relative path copied"<CR>
+
+" grep
+let &grepprg = 'rg --vimgrep'
+let &grepformat = '%f:%l:%c:%m,%f:%l:%m'
+
+" shortcuts
+nmap <C-K>   :!clang-format -i %<CR>
+nmap <C-J>   :write<CR>
+nmap <C-L>   :make<CR>
+nmap <TAB>   :b#<CR>
+nmap <space>g :grep 
+
+nmap [d :cprevious<CR>
+nmap ]d :cnext<CR>
+nmap =d :copen<CR>
+
+" abbreviations
+cnoreabbrev git  Git
+cnoreabbrev Make make
+cnoreabbrev amek make
+cnoreabbrev amke make
+cnoreabbrev man  Man
+
+iabbrev todo:  TODO:
+iabbrev fixme: FIXME:
+iabbrev note:  NOTE:
+
+function OnVimEnter()
+  if filereadable('build.sh')
+    " build script
+    let &makeprg="./build.sh"
+  elseif filereadable('meson.build') && isdirectory('build/')
+    " meson
+    let &makeprg="ninja -j0 -C build"
+  end
+endfunction
+
+autocmd VimEnter * call OnVimEnter()
