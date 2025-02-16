@@ -73,6 +73,7 @@ alias cal='cal -m'
 alias ffmpeg='ffmpeg -hide_banner'
 alias ffprobe='ffprobe -hide_banner'
 alias gs='git status'
+alias gl='git log --all --oneline --graph'
 alias ga='git add -p'
 alias gr='git restore -p'
 alias gc='git commit -v'
@@ -90,15 +91,14 @@ if [ "$(tty)" = '/dev/tty1' ]; then
 
   # mpv uses vulkan video decoding
   # https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/docs/envvars.rst
-  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,transfer_queue,video_decode,video_encode
+  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,transfer_queue,video_decode,video_encode,transfer_queue
 
   # wine
   export WINEPREFIX=/tmp/gaming/wine
-  export WINEFSYNC=1
+  #export WINEFSYNC=1 replaced by ntsync
   export WINEDEBUG='-all'
   export DXVK_LOG_LEVEL=none
   export VKD3D_DEBUG=none
-  mkdir -p $WINEPREFIX
 
   # https://gitlab.freedesktop.org/wlroots/wlroots/-/raw/master/docs/env_vars.md
   export WLR_RENDERER=vulkan
