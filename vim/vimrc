@@ -23,9 +23,10 @@ colorscheme industry
 set keywordprg=:Man
 
 " clipboard
-nmap <space>y  "+y
-nmap <space>p  "+p
-#nmap <space>yp :let @+ = expand("%") . ":" . line(".") | echo "relative path copied"<CR>
+" TODO: copy without +clipboard feature support
+"nmap <space>y  "+y
+"nmap <space>p  "+p
+"nmap <space>yp :let @+ = expand("%") . ":" . line(".") | echo "relative path copied"<CR>
 
 " grep
 let &grepprg = 'rg --vimgrep'
