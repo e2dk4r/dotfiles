@@ -1,0 +1,2 @@
+/* hide tabs, using sway's tab layout */
+#TabsToolbar { visibility: collapse; }

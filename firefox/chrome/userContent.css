@@ -1,0 +1,9 @@
+/* Change background color for both private and non-private windows */
+@-moz-document url("about:newtab"), 
+               url("about:home"),
+               url("about:privatebrowsing")
+{
+  html { 
+   --newtab-background-color: #000000 !important;
+  }
+}
