@@ -1,0 +1,25 @@
+repo="$1"
+shift
+
+# [0,1] IsStringStartsWith(string, search)
+IsStringStartsWith() {
+  string="$1"
+  search="$2"
+
+  case "$string" in
+    "$search"*)
+      echo 1
+      ;;
+    *)
+      echo 0
+      ;;
+  esac
+}
+
+if [ $(IsStringStartsWith "$repo" 'e2dk4r/') -eq 1 ]; then
+  # use ssh
+  exec git clone git@github.com:$repo "$@"
+fi
+
+# shallow clone
+exec git clone --depth "$repo" "$@"

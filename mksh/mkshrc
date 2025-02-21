@@ -78,7 +78,6 @@ alias ga='git add -p'
 alias gr='git restore -p'
 alias gc='git commit -v'
 alias gp='git push'
-alias clone='git clone --depth 1'
 
 # login manager
 if [ "$(tty)" = '/dev/tty1' ]; then
