@@ -1,1 +1,2 @@
+=dev-libs/openssl-3.4.9999
 >=dev-lang/python-3.13.0

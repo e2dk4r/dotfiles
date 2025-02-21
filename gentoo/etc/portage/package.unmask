@@ -1,7 +1,6 @@
 # bleeding edge
 media-video/ffmpeg
 net-dns/smartdns
-dev-libs/openssl
 
 # hip
 >=dev-libs/roct-thunk-interface-6.0.0
