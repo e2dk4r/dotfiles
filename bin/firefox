@@ -1,0 +1,54 @@
+ProfileDir="$XDG_RUNTIME_DIR/firefox"
+archive="$HOME/.mozilla/profile.tar.zst"
+
+RestoreProfile=0
+BackupProfile=0
+for i in "$@"; do
+  case $i in
+    -s|--save|--backup)
+      BackupProfile=1
+    ;;
+    -l|--load|--restore)
+      RestoreProfile=1
+    ;;
+    -h|--help|-?)
+      cat <<EOF
+firefox [options]
+
+OPTIONS:
+  -s, --save, --backup
+    backup profile and exit
+
+  -l, --load, --restore
+    restore profile
+EOF
+    ;;
+  esac
+done
+
+if [ $BackupProfile -eq 1 ]; then
+  tmpfile="$(mktemp)"
+  tar cf -                           \
+    -C "${ProfileDir%/*}"            \
+    --exclude saved-telemetry-pings/ \
+    --exclude startupCache/          \
+    --exclude cache2/                \
+    --exclude datareporting/         \
+    "${ProfileDir##*/}"              \
+    | zstd -f -3 -o "$tmpfile"
+  cp "$tmpfile" "$archive"
+  rm "$tmpfile"
+  echo Backup firefox profile
+  exit 0
+fi
+
+if [ $RestoreProfile -eq 1 ] || [ ! -d "$ProfileDir" ]; then
+  tar xf "$archive" -C "${ProfileDir%/*}"
+  echo Loaded firefox profile
+fi
+
+export MOZ_ALLOW_DOWNGRADE=1
+export MOZ_APP_LAUNCHER=/usr/lib64/firefox/firefox
+export MOZ_ENABLE_WAYLAND=1
+export MOZ_USE_XINPUT2=1
+exec $MOZ_APP_LAUNCHER --profile "$ProfileDir" "$@"
