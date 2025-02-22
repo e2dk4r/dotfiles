@@ -24,8 +24,6 @@ address /4get.plunked.party/172.67.223.77
 address /4get.sijh.net/188.114.96.7
 
 # invidious
-## TR
-#address /inv.ngn.tf/193.106.196.85
 ## RO
 address /invidious.flokinet.to/185.247.224.4
 ## UA
@@ -49,7 +47,7 @@ address /docs.github.com/185.199.110.154,185.199.111.154,185.199.108.154,185.199
 
 # redlib/libreddit
 ## TR red.ngn.tf
-address /ngn.tf/193.106.196.85
+address /ngn.tf/176.100.37.65
 ## DE
 address /rl.bloat.cat/45.13.225.214
 ## DE
@@ -65,7 +63,7 @@ address /nitter.net/185.246.188.57
 ## US
 address /nitter.poast.org/173.208.145.50
 ## TR
-#address /nitter.ngn.tf/193.106.196.85
+#address /nitter.ngn.tf/176.100.37.65
 ## US
 address /nitter.lucabased.xyz/188.114.96.7
 ## FR
