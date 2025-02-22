@@ -6,19 +6,23 @@ import json
 import subprocess
 
 domains = (
-  'inv.ngn.tf', # TR
-  'yt.drgnz.club', # CZ
-  'iv.nboeck.de', # DE
+  'nyc1.iv.ggtyler.dev', # US, New York
+  'cal1.iv.ggtyler.dev', # US, California
+  'pol1.iv.ggtyler.dev', # PO, Warsaw
+  'invidious.ducks.party', # DE
   'iv.melmac.space', # DE
-  'yt.artemislena.eu', # DE
-  'yt.cdaut.de', # DE
-  'iv.datura.network', # FI
+  # CLOSED 'inv.ngn.tf', # TR
+  # 502 'yt.drgnz.club', # CZ
+  # CLOSED 'iv.nboeck.de', # DE
+  # CLOSED @2025/06/25 'yt.artemislena.eu', # DE
+  # 502 'yt.cdaut.de', # DE
+  # CLOSED 'iv.datura.network', # FI
   'invidious.nerdvpn.de', # UA
-  'inv.nadeko.net', # CL
-  'invidious.privacydev.net', # FR
-  'invidious.flokinet.to', # RO
-  'invidious.protokolla.fi', # BG
-  'invidious.lunar.icu', # DE, CF
+  # TIMEOUT 'inv.nadeko.net', # CL
+  # 502 'invidious.privacydev.net', # FR
+  # CLOSED 'invidious.flokinet.to', # RO
+  # TIMEOUT 'invidious.protokolla.fi', # BG
+  # 502 'invidious.lunar.icu', # DE, CF
 )
 
 # see: https://github.com/yt-dlp/yt-dlp/raw/master/yt_dlp/extractor/youtube.py
