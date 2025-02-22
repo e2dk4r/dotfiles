@@ -111,6 +111,10 @@ address /lucida.su/172.67.207.113
 address /rsync.ro.gentoo.org/194.42.102.4
 address /anongit.gentoo.org/136.243.54.251,148.251.78.52
 
+### https://www.gentoo.org/downloads/mirrors/
+### DE
+address /ftp.halifax.rwth-aachen.de/137.226.34.46
+
 ## voidlinux
 address /repo-fi.voidlinux.org/135.181.160.58 # Europe Helsinki, Finland
 address /repo-de.voidlinux.org/212.83.43.28 # Europe Frankfurt, Germany
