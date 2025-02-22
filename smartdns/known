@@ -24,20 +24,18 @@ address /4get.plunked.party/172.67.223.77
 address /4get.sijh.net/188.114.96.7
 
 # invidious
-## RO
-address /invidious.flokinet.to/185.247.224.4
+## US, New York
+address /nyc1.iv.ggtyler.dev/45.137.206.17
+## US, California
+address /cal1.iv.ggtyler.dev/71.19.146.127
+## PO, Warsaw
+address /pol1.iv.ggtyler.dev/88.218.206.66
+## DE
+address /invidious.ducks.party/194.62.248.73
+## DE
+address /iv.melmac.space/217.197.84.233
 ## UA
 address /invidious.nerdvpn.de/62.182.81.28
-## CZ
-address /yt.drgnz.club/83.208.14.147
-## FI
-address /invidious.privacyredirect.com/109.107.190.203
-## CL
-#address /inv.nadeko.net/186.105.190.207
-## DE - CF
-address /invidious.lunar.icu/45.145.40.181
-## FR
-address /invidious.privacydev.net/91.134.161.76
 
 # github
 address /github.com/140.82.121.3
