@@ -22,4 +22,4 @@ if [ $(IsStringStartsWith "$repo" 'e2dk4r/') -eq 1 ]; then
 fi
 
 # shallow clone
-exec git clone --depth "$repo" "$@"
+exec git clone --depth 1 "$repo" "$@"
