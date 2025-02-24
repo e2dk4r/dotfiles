@@ -1,7 +1,23 @@
-// Apply
-//   [profile directory]/chrome/userChrome.css
-//   [profile directory]/chrome/userContent.css
-// changes
+// Privacy https://wiki.archlinux.org/title/Firefox/Privacy
+pref("network.captive-portal-service.enabled", false);
+pref("toolkit.telemetry.enabled", false);
+pref("network.trr.mode", 5);
+pref("geo.enabled", false);
+pref("browser.safebrowsing.malware.enabled", false);
+pref("browser.safebrowsing.phishing.enabled", false);
+pref("browser.safebrowsing.downloads.enabled", false);
+
+// Use compositor integration
+pref("gfx.webrender.compositor.force-enabled", true);
+
+// backspace: go back shift+backspace: go forward
+pref("browser.backspace_action", 0);
+// Remove full screen warning
+pref("full-screen-api.warning.timeout", 0);
+
+// Apply changes in
+// - [profile directory]/chrome/userChrome.css
+// - [profile directory]/chrome/userContent.css
 pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 
 // Enable http3
@@ -433,8 +449,8 @@ user_pref("network.ssl_tokens_cache_capacity", 10240); // default=2048; more TLS
 // [3] https://www.keycdn.com/blog/resource-hints#2-dns-prefetching
 // [4] http://www.mecs-press.org/ijieeb/ijieeb-v7-n5/IJIEEB-V7-N5-2.pdf
 // [5] https://bugzilla.mozilla.org/show_bug.cgi?id=1596935#c28
-//user_pref("network.dns.disablePrefetch", true);
-//    user_pref("network.dns.disablePrefetchFromHTTPS", true); // [FF127+ false]
+user_pref("network.dns.disablePrefetch", false);
+    user_pref("network.dns.disablePrefetchFromHTTPS", false); // [FF127+ false]
 
 // PREF:  DNS prefetch for HTMLAnchorElement (speculative DNS)
 // Disable speculative DNS calls to prevent Firefox from resolving
