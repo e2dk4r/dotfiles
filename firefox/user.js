@@ -1,4 +1,11 @@
+// Apply
+//   [profile directory]/chrome/userChrome.css
+//   [profile directory]/chrome/userContent.css
+// changes
 pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+
+// Enable http3
+pref("network.http.http3.enabled", true);
 
 // Use LANG environment variable to choose locale
 pref("intl.locale.requested", "");
