@@ -27,9 +27,12 @@ EOF
 done
 
 if [ $BackupProfile -eq 1 ]; then
+  ProfileDirParent="${ProfileDir%/*}"
+  ProfileDirBasename="${ProfileDir##*/}"
+
   tmpfile="$(mktemp)"
-  tar cf -                           \
-    -C "${ProfileDir%/*}"            \
+  tar cf "$tmpfile"                  \
+    -C "$ProfileDirParent"           \
     --exclude storage/               \
     --exclude startupCache/          \
     --exclude cache2/                \
@@ -40,16 +43,26 @@ if [ $BackupProfile -eq 1 ]; then
     --exclude security_state/        \
     --exclude bookmarkbackups/       \
     --exclude sessionstore-logs/     \
-    "${ProfileDir##*/}"              \
-    | zstd -f -3 -o "$tmpfile"
-  cp "$tmpfile" "$archive"
-  rm "$tmpfile"
+    "$ProfileDirBasename"
+
+  userContextId=$(jq '.identities.[] | select(.name == "userContextIdInternal.webextStorageLocal") | .userContextId' "$ProfileDir/containers.json")
+  tar rf "$tmpfile"                                                                                                         \
+    -C "$ProfileDirParent"                                                                                                  \
+    "$ProfileDirBasename/storage/default/moz-extension+++dc6ff0e1-cd65-4dc1-9ff6-19e53ed7ec35"                              \
+    "$ProfileDirBasename/storage/default/moz-extension+++dc6ff0e1-cd65-4dc1-9ff6-19e53ed7ec35^userContextId=$userContextId" \
+    "$ProfileDirBasename/storage/default/moz-extension+++1d1175cb-4e71-49ad-b2bf-bd0ea150d6f2^userContextId=$userContextId"
+
+  tmpArchive="$(mktemp)"
+  zstd -f -3 -o "$tmpArchive" "$tmpfile"
+  cp "$tmpArchive" "$archive"
+  rm "$tmpfile" "$tmpArchive"
   echo Backup firefox profile
   exit 0
 fi
 
 if [ $RestoreProfile -eq 1 ] || [ ! -d "$ProfileDir" ]; then
-  tar xf "$archive" -C "${ProfileDir%/*}"
+  ProfileDirParent="${ProfileDir%/*}"
+  tar xf "$archive" -C "$ProfileDirParent"
   echo Loaded firefox profile
 fi
 
