@@ -30,10 +30,16 @@ if [ $BackupProfile -eq 1 ]; then
   tmpfile="$(mktemp)"
   tar cf -                           \
     -C "${ProfileDir%/*}"            \
-    --exclude saved-telemetry-pings/ \
+    --exclude storage/               \
     --exclude startupCache/          \
     --exclude cache2/                \
+    --exclude gmp-gmpopenh264/       \
     --exclude datareporting/         \
+    --exclude saved-telemetry-pings/ \
+    --exclude safebrowsing/          \
+    --exclude security_state/        \
+    --exclude bookmarkbackups/       \
+    --exclude sessionstore-logs/     \
     "${ProfileDir##*/}"              \
     | zstd -f -3 -o "$tmpfile"
   cp "$tmpfile" "$archive"
