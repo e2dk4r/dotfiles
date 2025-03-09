@@ -7,13 +7,13 @@ SAVE_DIR="$HOME/.local/state/gaming"
 SAVE_FILE='grip.tar.zst'
 SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
 
-if [ ! -e "$WINEAPPDATADIR/Grip" ]; then
+if [ ! -e "$WINEHOME/AppData/Local/Grip" ]; then
   echo GRIP save file not found
   exit 1
 fi
 
 mkdir -p "$SAVE_DIR"
 
-tar cf - -C "$WINEAPPDATADIR" Grip/ | zstd -19 > "$SAVE_PATH"
+tar cf - -C "$WINEHOME" AppData/Local/Grip/ | zstd -19 > "$SAVE_PATH"
 
 echo "Grip saves backed to \"$SAVE_PATH\""
