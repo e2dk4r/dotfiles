@@ -4,19 +4,6 @@ set $down  j
 set $up    k
 set $right l
 
-#set $font "Atkinson Hyperlegible"
-set $font  CascadiaCode
-
-#set $term zutty -e 'cd /tmp' -font $font -fontsize 20 -autoCopy -saveLines 0
-#set $term alacritty '--working-directory=/tmp' -o 'font.family=$font' -o 'font.size=16' -o 'scrolling.history=0' -o 'colors.primary.background=#000000' -o 'colors.primary.foreground=#f8f8f2'
-set $term footclient '--working-directory=/tmp' -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
-#set $term foot '--working-directory=/tmp' -o 'font=$font:size=16' -o 'scrollback.lines=0' -o 'cursor.color=111111 cccccc' -o 'colors.foreground=dddddd' -o 'colors.background=000000' -o 'colors.regular0=000000' -o 'colors.regular1=cc0403' -o 'colors.regular2=19cb00' -o 'colors.regular3=cecb00' -o 'colors.regular4=0d73cc' -o 'colors.regular5=cb1ed1' -o 'colors.regular6=0dcdcd' -o 'colors.regular7=dddddd' -o 'colors.bright0=767676' -o 'colors.bright1=f2201f' -o 'colors.bright2=23fd00' -o 'colors.bright3=fffd00' -o 'colors.bright4=1a8fff' -o 'colors.bright5=fd28ff' -o 'colors.bright6=14ffff' -o 'colors.bright7=ffffff'
-
-set $menuopts 'firefox\ngimp\ndebian\nwin11\nandroid7\nzathura'
-#set $menu printf $menuopts | kickoff --from-stdin
-#set $menu printf $menuopts | bemenu --fn '$font 16' -l 8 | xargs swaymsg exec --
-set $menu printf $menuopts | tofi | xargs swaymsg exec --
-
 default_border pixel 3
 hide_edge_borders smart
 focus_follows_mouse no
@@ -26,9 +13,15 @@ focus_follows_mouse no
 #output DP-1 mode 1920x1080@60.000Hz pos 1080 0 adaptive_sync on
 #output DP-2 mode 1920x1080@60.000Hz pos 0 0 transform 90 adaptive_sync on
 output * bg #000000 solid_color
+output * max_render_time 1
+output * subpixel rgb
 
 # Philips Consumer Electronics Company PHL 272E2F
-output DP-1 mode 1920x1080@60.000Hz adaptive_sync on color_profile icc /usr/share/color/icc/272E2F.icm
+output DP-1 {
+  mode 1920x1080@60.000Hz
+  adaptive_sync on
+  color_profile icc /usr/share/color/icc/272E2F.icm
+}
 
 # |------|
 # | DP-2 |
@@ -36,14 +29,13 @@ output DP-1 mode 1920x1080@60.000Hz adaptive_sync on color_profile icc /usr/shar
 # |      |   DP-1  |
 # |------|---------|
 #       1080
-bindsym $mod+f1 output DP-1 pos 1080 0; output DP-2 transform 90
+#bindsym $mod+f1 output DP-1 pos 1080 0; output DP-2 transform 90
 
 # |----------|----------|
 # |   DP-2   |   DP-1   |
 # |----------|----------|
 #           1920
-bindsym $mod+f2 output DP-1 pos 1920 0; output DP-2 transform 0
-
+#bindsym $mod+f2 output DP-1 pos 1920 0; output DP-2 transform 0
 
 # Input configuration
 #----------------------------------------------------------------
@@ -70,13 +62,13 @@ input "1386:856:Wacom_Intuos_Pro_L_Pen" {
 # Bindings
 #----------------------------------------------------------------
 # Start a terminal
-bindsym $mod+Return exec $term
+bindsym $mod+Return exec terminal-emulator
 
 # Kill focused window
 bindsym $mod+q kill
 
 # Start your launcher
-bindsym $mod+p exec $menu
+bindsym $mod+p exec menu
 
 # Drag floating windows by holding down $mod and left mouse button.
 floating_modifier $mod normal
@@ -187,7 +179,7 @@ bindsym $mod+r mode "resize"
 bar {
   mode invisible
   position top
-  font $font
+  font "Sicret Mono Medium"
 
   # When the status_command prints a new line to stdout, swaybar updates.
   # The default just shows the current date and time.

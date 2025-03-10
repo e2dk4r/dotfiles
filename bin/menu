@@ -1,0 +1,23 @@
+#!/bin/sh
+
+font='Sicret Mono Medium'
+fontSize=14
+
+options=''
+append() {
+  if [ -z "$options" ]; then
+    options="$1"
+  else
+    options="$options\n$1"
+  fi
+}
+
+append firefox
+append gimp
+append debian
+append zathura
+
+selected=$(echo "$options" | tofi)
+if [ -n "$selected" ]; then
+  exec $selected
+fi
