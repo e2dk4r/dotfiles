@@ -284,7 +284,7 @@ def main():
         command = [ 'mpv' ]
         command += [ f"--force-media-title={title}" ]
         if len(argv) > 2:
-          command += [ ' '.join(argv[1:-1]) ]
+          command += argv[1:-1]
         command += [ f"--script-opts=sponsorblock-videoId={videoId}" ]
 
         if video == '':
