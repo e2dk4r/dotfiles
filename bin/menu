@@ -16,6 +16,7 @@ append firefox
 append gimp
 append debian
 append zathura
+append monitor
 
 selected=$(echo "$options" | tofi)
 if [ -n "$selected" ]; then

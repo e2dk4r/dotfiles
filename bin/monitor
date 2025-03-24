@@ -1,0 +1,84 @@
+#!/bin/sh
+# NOTE: Assumes at most dual-monitor setup
+set -o errexit
+json=$(swaymsg --raw --type get_outputs)
+
+Json() {
+  filter="$1"
+  echo "$json" | jq --exit-status --raw-output "$filter"
+}
+
+ListStart() {
+  item="$1"
+  list="$item"
+}
+
+ListAppend() {
+  item="$1"
+  list="$list\n$item"
+}
+
+SelectFromList() {
+  selected=$(echo "$list" | tofi)
+}
+
+CheckForCancellation() {
+  if [ -z "$selected" ]; then
+    echo cancelled
+    exit
+  fi
+}
+
+output=$(Json '.[0].name')
+secondOutput=''
+outputCount=$(Json length)
+if [ "$outputCount" -gt 1 ]; then
+  ListStart 'current'
+  ListAppend "$(Json '.[].name')"
+  SelectFromList
+  CheckForCancellation
+
+  output="$selected"
+  if [ "$output" = 'current' ]; then
+    output=$(Json '[.[] | select(.focused)] | first | .name')
+  fi
+fi
+
+ListStart vertical
+ListAppend landscape
+if [ $outputCount -eq 2 ]; then
+  secondOutput=$(Json "[.[] | select(.name != \"$output\")] | first | .name")
+  ListAppend left
+  ListAppend right
+fi
+SelectFromList
+CheckForCancellation
+
+case "$selected" in
+  landscape)
+    transform=0
+    ;;
+  vertical)
+    transform=90
+    ;;
+  left)
+    position='0 0'
+    secondOutputPosition="$(Json "[.[] | select(.name == \"$output\")] | first | .rect.width") 0"
+    ;;
+  right)
+    position="$(Json "[.[] | select(.name == \"$secondOutput\")] | first | .rect.width") 0"
+    secondOutputPosition="0 0"
+    ;;
+esac
+
+if [ -n "$transform" ]; then
+  swaymsg output "$output" transform "$transform"
+  echo "$output rotated to $transform"
+fi
+
+if [ -n "$position" ] && [ "$outputCount" -eq 2 ]; then
+  swaymsg output "$output" position "$position"
+  echo "$output placed at $position"
+  swaymsg output "$secondOutput" position "$secondOutputPosition"
+  echo "$secondOutput placed at $secondOutputPosition"
+fi
