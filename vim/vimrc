@@ -15,7 +15,7 @@ set statusline=%<%f\ %h%m%r%=[%{&filetype}\ %{&fileencoding}][%(%.l,%c%V%)\ %P]
 set hlsearch
 set incsearch
 set ignorecase
-set shortmess=A
+set shortmess=IA
 
 " color
 set termguicolors
