@@ -9,7 +9,7 @@ set autoread
 
 " status line
 set laststatus=2
-set statusline=%<%f\ %h%m%r%=[0x%B][%{&filetype}\ %{&fileencoding}][%(%.l,%c%V%)\ %P]
+set statusline=%<%f\ %h%m%r%=[%{&filetype}\ %{&fileencoding}][%(%.l,%c%V%)\ %P]
 
 " search
 set hlsearch
