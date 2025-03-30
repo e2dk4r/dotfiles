@@ -33,10 +33,18 @@ https://sourceware.org/gdb/current/onlinedocs/gdb.html/Output-Formats.html
 (lldb) target stop-hook add -o 'p value'
 
 # memory
-memory read
-(lldb) x
 
-(lldb) x buf
+'x' is an abbreviation for 'memory read'
+
+```
+(lldb) x (u8*)string.value
+```
+
+Write contents of string.value to file
+
+```
+(lldb) memory read --force --binary --count 102400 -o /tmp/test (u8*)string.value
+```
 
 # breakpoint:
 break
