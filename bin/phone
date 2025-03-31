@@ -1,0 +1,12 @@
+#!/bin/sh
+
+DISPLAY=1080x1920
+
+if [ $(command -v swaymsg) ]; then
+  DISPLAY="$(swaymsg -t get_outputs | jq -r '[.[] | select(.focused)] | first | .rect | "\(.width)x\(.height)"')"
+fi
+
+scrcpy                    \
+  --new-display=$DISPLAY  \
+  --no-vd-destroy-content \
+  "$@"
