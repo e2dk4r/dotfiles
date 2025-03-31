@@ -47,21 +47,26 @@ export XDG_PICTURES_DIR=$HOME/pics
 export XDG_VIDEOS_DIR=$HOME/video
 
 # app defaults
-export GRIM_DEFAULT_DIR=$XDG_RUNTIME_DIR/grim
-mkdir -p $GRIM_DEFAULT_DIR
-
+export GRIM_DEFAULT_DIR=/tmp
 export XZ_DEFAULTS='--threads=32 --memlimit=64g'
-#export CC=clang
-#export CXX=$CC
-#export CFLAGS='-march=native -pipe'
-#export LDFLAGS='-fuse-ld=mold'
+export CC=clang
+export CXX=$CC
+export CFLAGS='-march=native -pipe'
+export LDFLAGS='-fuse-ld=mold'
 export WIREPLUMBER_DEBUG=0
+export LESSHISTFILE='-'
 export ESCDELAY=0 # man ncurses.3
+export TERM=xterm-256color
+export NNN_SEL="$XDG_RUNTIME_DIR/nnn.sel"
+export NNN_FIFO="$XDG_RUNTIME_DIR/nnn.fifo"
+
 # general purpose
 mkdir -p /tmp/download
+mkdir -p /tmp/gaming
 mkdir -p /tmp/vms
 mkdir -p /tmp/project
 mkdir -p $XDG_RUNTIME_DIR/streamrip
+mkdir -p $XDG_RUNTIME_DIR/android
 
 # alias
 alias ..='cd ..'
