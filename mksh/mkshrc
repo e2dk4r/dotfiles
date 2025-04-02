@@ -100,6 +100,7 @@ if [ "$(tty)" = '/dev/tty1' ]; then
   # wine
   export WINEPREFIX=/tmp/gaming/wine
   #export WINEFSYNC=1 replaced by ntsync
+  export WINEDLLOVERRIDES=winemenubuilder.exe=d
   export WINEDEBUG='-all'
   export DXVK_LOG_LEVEL=none
   export VKD3D_DEBUG=none
