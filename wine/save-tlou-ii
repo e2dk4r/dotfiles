@@ -14,6 +14,14 @@ fi
 
 mkdir -p "$SAVE_DIR"
 
-tar cf - -C "$WINEHOME" --exclude *.log 'Documents/The Last of Us Part II' 'AppData/Roaming/Naughty Dog/The Last of Us Part II' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
+tar cf - -C "$WINEHOME"                               \
+  --exclude *.log                                     \
+  --exclude reports/*                                 \
+  --exclude attachments/*                             \
+  --exclude backup/                                   \
+  --exclude *-backup                                  \
+  'Documents/The Last of Us Part II'                  \
+  'AppData/Roaming/Naughty Dog/The Last of Us Part II'  \
+  'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
 
 echo "The Last of Us Part II saves backed to \"$SAVE_PATH\""
