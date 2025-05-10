@@ -134,6 +134,8 @@ formats = {
     '400': {'ext': 'mp4', 'height': 1440, 'format_note': 'DASH video', 'vcodec': 'av01.0.12M.08'},
     '401': {'ext': 'mp4', 'height': 2160, 'format_note': 'DASH video', 'vcodec': 'av01.0.12M.08'},
 
+'788': {'ext': 'mp4', 'height': 1080, 'format_note': 'DASH video', 'vcodec': 'av01.0.04M.08.0.110.06.01.06.0'},
+
 '229': {'ext': 'mp4', 'height': 240,  'format_note': 'DASH video', 'vcodec': 'avc1.4D4015'},
 '230': {'ext': 'mp4', 'height': 360,  'format_note': 'DASH video', 'vcodec': 'avc1.4D401E'},
 '231': {'ext': 'mp4', 'height': 480,  'format_note': 'DASH video', 'vcodec': 'avc1.4D401F'},
@@ -165,6 +167,11 @@ formats = {
 
 '779': {'ext': 'webm', 'height': 608, 'format_note': 'DASH video', 'vcodec': 'vp9'},
 '780': {'ext': 'webm', 'height': 608, 'format_note': 'DASH video', 'vcodec': 'vp9'},
+
+'597': {'ext': 'mp4', 'height': 144, 'format_note': 'DASH video', 'vcodec': 'avc1.4d400b' },
+'598': {'ext': 'webm', 'height': 144, 'format_note': 'DASH video', 'vcodec': 'vp9' },
+'599': {'ext': 'm4a', 'format_note': 'DASH audio', 'acodec': 'aac' },
+'600': {'ext': 'webm', 'format_note': 'DASH audio', 'acodec': 'opus' },
 }
 def usage():
     print(f'{argv[0]} <invidious>')
