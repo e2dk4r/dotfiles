@@ -284,6 +284,10 @@ def main():
                     videoBitrate = bitrate
 
             if type.startswith('audio/') > 0:
+                dubbed = url.find('dubbed-auto%3Alang%3D')
+                lang = 'original' if dubbed < 0 else url[dubbed + 21:url.find('&', dubbed)]
+                if lang != 'original':
+                    continue
                 if bitrate > videoBitrate:
                     audio = url
                     audioBitrate = bitrate
