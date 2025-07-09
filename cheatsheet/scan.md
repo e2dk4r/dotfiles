@@ -50,3 +50,30 @@ for i in $(ls page*.jpg); do magick $i -format jpg -density 0x0 -compress JPEG -
 ```
 magick resized/*.jpg output.pdf
 ```
+
+# postprocess
+
+## edit pdf metadata
+
+We can edit metadata of PDF using `pdfmarks`. This is in [ghostscript](https://ghostscript.com/) package.
+
+See [Cooking up Enhanced PDF with pdfmark Recipes](http://www.meadowmead.com/wp-content/uploads/2011/04/PDFMarkRecipes.pdf) for more.
+
+```sh
+$ cat > pdfmarks.txt <<EOF
+[
+/Title (My Test Document)
+/Author (John Doe)
+/Subject (pdfmark 3.0)
+/Keywords (pdfmark, example, test)
+/Creator (Hand Programmed)
+/Producer (Jaws PDFCreator)
+/CreationDate
+/ModDate (D:19940912205731)
+/DOCINFO pdfmark
+EOF
+$ gs -dBATCH -dNOPAUSE -dSAFER \
+   -sDEVICE=pdfwrite           \
+   -sOutputFile=output.pdf     \
+   input.pdf pdfmarks.txt
+```
