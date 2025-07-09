@@ -16,18 +16,37 @@ hp-scan --logging=none --mode=color --resolution=1200 --units=mm --box=0,0,10,50
 
 # convert
 
-In Linux, "convert" typically refers to the "convert" command-line tool provided by the ImageMagick software suite.
-ImageMagick is a powerful collection of tools and libraries for image manipulation, capable of performing a wide
-range of tasks such as image conversion, resizing, cropping, and more.
+# Prerequisites
+
+To use `magick` from `imagemagick` project, make sure it is compiled with `--with-jpeg`.
+
+To use `pdftoppm` from `poppler` project, make sure it is compiled with `-DENABLE_DCTDECODER=libjpeg`.
+
+# Convert pdf to jpeg files
+
+## with imagemagick
+
+```
+magic -density 300 input.pdf -quality 80 page_%02d.jpg
+```
+This creates `page_00.jpg`, `page_01.jpg`, etc.
+
+## with poppler (faster)
+
+```
+pdftoppm -jpeg -r 300 input.pdf page
+```
+
+This creates `page-1.jpg`, `page-2.jpg`, etc.
 
 # Convert all jpeg files to pdf
 
 1. make sure they are in right format
 ```
-for i in $(ls page*.jpg); do convert $i -format jpg -density 0x0 -compress JPEG -quality 80 -resize 40% ../resized/$i; done
+for i in $(ls page*.jpg); do magick $i -format jpg -density 0x0 -compress JPEG -quality 80 -resize 40% ../resized/$i; done
 ```
 
 2. convert
 ```
-convert resized/*.jpg output.pdf
+magick resized/*.jpg output.pdf
 ```
