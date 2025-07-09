@@ -60,6 +60,7 @@ We can edit metadata of PDF using `pdfmarks`. This is in [ghostscript](https://g
 See [Cooking up Enhanced PDF with pdfmark Recipes](http://www.meadowmead.com/wp-content/uploads/2011/04/PDFMarkRecipes.pdf) for more.
 
 ```sh
+$ # create pdfmarks file
 $ cat > pdfmarks.txt <<EOF
 [
 /Title (My Test Document)
@@ -68,12 +69,39 @@ $ cat > pdfmarks.txt <<EOF
 /Keywords (pdfmark, example, test)
 /Creator (Hand Programmed)
 /Producer (Jaws PDFCreator)
-/CreationDate
+/CreationDate (D:19940912205731)
 /ModDate (D:19940912205731)
 /DOCINFO pdfmark
 EOF
+
+$ # change metadata of input.pdf
 $ gs -dBATCH -dNOPAUSE -dSAFER \
    -sDEVICE=pdfwrite           \
    -sOutputFile=output.pdf     \
    input.pdf pdfmarks.txt
+
+$ # print metadata
+$ pdfinfo output.pdf
+Title:           My Test Document
+Subject:         pdfmark 3.0
+Keywords:        pdfmark, example, test
+Author:          John Doe
+Creator:         Hand Programmed
+Producer:        GPL Ghostscript 10.03.1
+CreationDate:    Mon Sep 12 23:57:31 1994 EEST
+ModDate:         Mon Sep 12 23:57:31 1994 EEST
+Custom Metadata: no
+Metadata Stream: yes
+Tagged:          no
+UserProperties:  no
+Suspects:        no
+Form:            none
+JavaScript:      no
+Pages:           27
+Encrypted:       no
+Page size:       595.2 x 841.68 pts (A4)
+Page rot:        0
+File size:       19121583 bytes
+Optimized:       no
+PDF version:     1.7
 ```
