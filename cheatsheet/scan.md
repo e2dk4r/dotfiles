@@ -16,22 +16,22 @@ hp-scan --logging=none --mode=color --resolution=1200 --units=mm --box=0,0,10,50
 
 # convert
 
-# Prerequisites
+## Prerequisites
 
 To use `magick` from `imagemagick` project, make sure it is compiled with `--with-jpeg`.
 
 To use `pdftoppm` from `poppler` project, make sure it is compiled with `-DENABLE_DCTDECODER=libjpeg`.
 
-# Convert pdf to jpeg files
+## Convert pdf to jpeg files
 
-## with imagemagick
+### with imagemagick
 
 ```
 magic -density 300 input.pdf -quality 80 page_%02d.jpg
 ```
 This creates `page_00.jpg`, `page_01.jpg`, etc.
 
-## with poppler (faster)
+### with poppler (faster)
 
 ```
 pdftoppm -jpeg -r 300 input.pdf page
@@ -39,7 +39,7 @@ pdftoppm -jpeg -r 300 input.pdf page
 
 This creates `page-1.jpg`, `page-2.jpg`, etc.
 
-# Convert all jpeg files to pdf
+## Convert all jpeg files to pdf
 
 1. make sure they are in right format
 ```
