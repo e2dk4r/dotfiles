@@ -1,0 +1,12 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+title="The Legend of Zelda Breath of the Wild"
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_FILE='00050000101c9500-botw.tar.zst'
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+tar xf "$BACKUP_PATH" -C "$WINEHOME" 
+echo "$title restored from \"$BACKUP_PATH\""
