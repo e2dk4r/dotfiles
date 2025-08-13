@@ -1,0 +1,12 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+title='Bang Bang Barrage'
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_FILE='bang_bang_barrage.tar.zst'
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+tar xf "$BACKUP_PATH" -C "$WINEHOME" 
+echo "$title restored from \"$BACKUP_PATH\""
