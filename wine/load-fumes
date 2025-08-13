@@ -3,7 +3,7 @@ set -o errexit
 
 . ./wine_config.sh
 
-title='Fumes'
+title='FUMES'
 BACKUP_DIR="$HOME/.local/state/gaming"
 BACKUP_FILE='fumes.tar.zst'
 BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"

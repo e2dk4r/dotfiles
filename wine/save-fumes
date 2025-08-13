@@ -3,7 +3,7 @@ set -o errexit
 
 . ./wine_config.sh
 
-title='Fumes'
+title='FUMES'
 
 SAVE_DIR='AppData/LocalLow/FUMES team/FUMES'
 if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
