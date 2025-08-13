@@ -1,0 +1,28 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+title='Fumes'
+
+SAVE_DIR='AppData/LocalLow/FUMES team/FUMES'
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
+  exit 1
+fi
+
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_FILE='fumes.tar.zst'
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+mkdir -p "$BACKUP_DIR"
+
+tmpfile=$(mktemp)
+tar cf - -C "$WINEHOME"                  \
+  --exclude *.log                        \
+  --exclude *.bak "$SAVE_DIR"            \
+  | zstd --ultra -22 --long > "$tmpfile"
+cp "$tmpfile" "$BACKUP_PATH"
+rm "$tmpfile"
+
+echo "$title saves backed into \"$BACKUP_PATH\""
