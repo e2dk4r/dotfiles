@@ -11,11 +11,12 @@ https://www.youtube.com/feeds/videos.xml?channel_id=UChIs72whgZI9w6d6FhwGGHA "Ga
 @ Comedy < item-limit 50; reload-period 60 * 60 * 24 * 4; # 4 days
 #https://feeds.soundcloud.com/users/soundcloud:users:24758916/sounds.rss "Bill Burr - theMonday Morning Podcast Verified"
 https://omny.fm/shows/monday-morning-podcast/playlists/podcast.rss "Bill Burr - theMonday Morning Podcast Verified"
-#https://iv.melmac.space/feed/channel/UCAp990eMLzmei84WNR4ptgA "Bill Burr" # Age-restricted
+#https://www.youtube.com/feeds/videos.xml?channel_id=UCAp990eMLzmei84WNR4ptgA "Bill Burr" # Age-restricted
 
 https://www.youtube.com/feeds/videos.xml?channel_id=UC4woSp8ITBoYDmjkukhEhxg "The Tim Dillon Show"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCLuYADJ6hESLHX87JnsGbjA "Josh Johnson"
 
-@ Youtube < reload-period 60 * 60 * 24 * 1; # 1 day
+@ Entertainment < reload-period 60 * 60 * 24 * 1; # 1 day
 https://www.youtube.com/feeds/videos.xml?channel_id=UCCuoqzrsHlwv1YyPKLuMDUQ "Jonathan Blow"    # game, programming
 https://www.youtube.com/feeds/videos.xml?channel_id=UC3ts8coMP645hZw9JSD3pqQ "Andreas Kling"    # browser, os, programming
 https://www.youtube.com/feeds/videos.xml?channel_id=UCkT7pg-YFt3k1N17q4vIAhg "Ladybird Browser" # monthly updates
@@ -23,6 +24,11 @@ https://www.youtube.com/feeds/videos.xml?channel_id=UCV0t1y4h_6-2SqEpXBXgwFQ "An
 https://www.youtube.com/feeds/videos.xml?channel_id=UCS0N5baNlQWJCUrhCEo8WlA "Ben Eater"        # hardware, embedded, programming
 https://www.youtube.com/feeds/videos.xml?channel_id=UCeEf90AEmmxaQs5BUkHqR3Q "mitxela"          # hardware, embedded, programming
 https://www.youtube.com/feeds/videos.xml?channel_id=UC7M-Wz4zK8oikt6ATcoTwBA "Freya Holmér"     # game, programming, math
+https://www.youtube.com/feeds/videos.xml?channel_id=UCmtyQOKKmrMVaKuRXz02jbQ "Sebastian Lague"  # programming, game
+https://www.youtube.com/feeds/videos.xml?channel_id=UCbKWv2x9t6u8yZoB3KcPtnw "Alan Becker"      # animation, stick figure
+https://www.youtube.com/feeds/videos.xml?channel_id=UCy0tKL1T7wFoYcxCe0xjN6Q "Technology Connections" # electricy
+
+https://www.jendrikillner.com/tags/weekly/index.xml "Jendrik Illner - Graphics Programming Weekly"
 
 @ Software < reload-period 60 * 60 * 24 * 1; # 1 day
 https://github.com/libsdl-org/SDL/releases.atom "SDL Releases"
@@ -41,3 +47,10 @@ https://www.mesa3d.org/news/index.xml "The Mesa 3D Graphics Library"
 @ Games < reload-period 60 * 60 * 24 * 30; # 30 days
 https://steamdb.info/api/PatchnotesRSS/?appid=1145350 "Hades II"
 https://steamdb.info/api/PatchnotesRSS/?appid=227300  "Euro Truck Simulator 2"
+https://steamdb.info/api/PatchnotesRSS/?appid=2531310 "The Last of Us™ Part II Remastered"
+https://steamdb.info/api/PatchnotesRSS/?appid=2001120 "Split Fiction"
+https://steamdb.info/api/PatchnotesRSS/?appid=1086940 "Baldur's Gate 3"
+https://steamdb.info/api/PatchnotesRSS/?appid=284160  "BeamNG.drive"
+https://steamdb.info/api/PatchnotesRSS/?appid=427520  "Factorio"
+https://steamdb.info/api/PatchnotesRSS/?appid=2015270 "Rotwood"
+https://steamdb.info/api/PatchnotesRSS/?appid=2198150 "Tiny Glade"
