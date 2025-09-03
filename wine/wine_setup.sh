@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export WINEPREFIX=/tmp/gaming/wine
+export WINEHOME="$WINEPREFIX/drive_c/users/$USER"
 export DOSDEVICE_Z="${WINEPREFIX%/*}"
 
 wineboot
@@ -84,3 +85,8 @@ cp /usr/lib/vkd3d-proton/x32/*.dll "$WINEPREFIX/drive_c/windows/syswow64"
 for dll in d3d12 d3d12core; do
   wine reg add 'HKEY_CURRENT_USER\Software\Wine\DllOverrides' /v $dll /t REG_SZ /d native /f >/dev/null 2>&1
 done
+
+# goldberg steam emu
+goldberg_settings="$WINEHOME/AppData/Roaming/Goldberg SteamEmu Saves/settings"
+echo "$USER"             > "$goldberg_settings/account_name.txt"
+echo "76561199064153914" > "$goldberg_settings/user_steam_id.txt"
