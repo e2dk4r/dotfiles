@@ -88,5 +88,6 @@ done
 
 # goldberg steam emu
 goldberg_settings="$WINEHOME/AppData/Roaming/Goldberg SteamEmu Saves/settings"
+mkdir -p "$goldberg_settings"
 echo "$USER"             > "$goldberg_settings/account_name.txt"
 echo "76561199064153914" > "$goldberg_settings/user_steam_id.txt"
