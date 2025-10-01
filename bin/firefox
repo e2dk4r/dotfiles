@@ -1,3 +1,4 @@
+#!/bin/sh
 ProfileDir="$XDG_RUNTIME_DIR/firefox"
 archive="$HOME/.mozilla/profile.tar.zst"
 
@@ -33,6 +34,7 @@ if [ $BackupProfile -eq 1 ]; then
   tmpfile="$(mktemp)"
   tar cf "$tmpfile"                  \
     -C "$ProfileDirParent"           \
+    --exclude adb/                   \
     --exclude storage/               \
     --exclude startupCache/          \
     --exclude cache2/                \
@@ -42,18 +44,29 @@ if [ $BackupProfile -eq 1 ]; then
     --exclude safebrowsing/          \
     --exclude security_state/        \
     --exclude bookmarkbackups/       \
+    --exclude sessionstore-backups/  \
     --exclude sessionstore-logs/     \
+    --exclude thumbnails/            \
+    --exclude weave/                 \
+    --exclude favicons.sqlite        \
+    --exclude favicons.sqlite-shm    \
+    --exclude favicons.sqlite-wal    \
     "$ProfileDirBasename"
 
   userContextId=$(jq '.identities.[] | select(.name == "userContextIdInternal.webextStorageLocal") | .userContextId' "$ProfileDir/containers.json")
+  # Some extensions store their data in storage-sync-v2.sqlite some in storage/default/moz-extension+++$uuid
+  uuids=$(cat "$ProfileDir/prefs.js" | grep extensions.webextensions.uuids | cut -d ',' -f2- | sed 's/");$//' | sed 's/^ "//' | sed 's/\\"/"/g')
+  ublock0=$(echo "$uuids" | jq -r '."uBlock0@raymondhill.net"')
+  redirector=$(echo "$uuids" | jq -r '."redirector@einaregilsson.com"')
+
   tar rf "$tmpfile"                                                                                                         \
     -C "$ProfileDirParent"                                                                                                  \
-    "$ProfileDirBasename/storage/default/moz-extension+++dc6ff0e1-cd65-4dc1-9ff6-19e53ed7ec35"                              \
-    "$ProfileDirBasename/storage/default/moz-extension+++dc6ff0e1-cd65-4dc1-9ff6-19e53ed7ec35^userContextId=$userContextId" \
-    "$ProfileDirBasename/storage/default/moz-extension+++1d1175cb-4e71-49ad-b2bf-bd0ea150d6f2^userContextId=$userContextId"
+    "$ProfileDirBasename/storage/default/moz-extension+++$ublock0"                              \
+    "$ProfileDirBasename/storage/default/moz-extension+++$ublock0^userContextId=$userContextId" \
+    "$ProfileDirBasename/storage/default/moz-extension+++$redirector^userContextId=$userContextId"
 
   tmpArchive="$(mktemp)"
-  zstd -f -3 -o "$tmpArchive" "$tmpfile"
+  zstd -3fo "$tmpArchive" "$tmpfile"
   cp "$tmpArchive" "$archive"
   rm "$tmpfile" "$tmpArchive"
   echo Backup firefox profile
@@ -65,6 +78,9 @@ if [ $RestoreProfile -eq 1 ] || [ ! -d "$ProfileDir" ]; then
   tar xf "$archive" -C "$ProfileDirParent"
   echo Loaded firefox profile
 fi
+
+# pipewire v4l2
+export LD_PRELOAD='/usr/lib64/pipewire-0.3/v4l2/libpw-v4l2.so'
 
 export MOZ_ALLOW_DOWNGRADE=1
 export MOZ_APP_LAUNCHER=/usr/lib64/firefox/firefox
