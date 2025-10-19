@@ -1,0 +1,1 @@
+use-grammars = { only = [ "rust", "c", "cpp", "json", "diff", "env", "glsl", "meson", "markdown", "markdown.inline", "python", "toml", "xml", "yaml" ] }

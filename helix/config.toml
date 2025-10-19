@@ -1,0 +1,29 @@
+theme = "github_dark_high_contrast"
+
+[editor]
+shell = ["/bin/sh", "-c"]
+line-number = "relative"
+true-color = true
+
+# > v25.07.1
+#[editor.word-completion]
+#enable = true
+#trigger-length = 3
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.lsp]
+display-messages = true
+
+[keys.normal]
+G = "goto_file_end"
+X = "extend_line_above"
+"{" = "goto_prev_paragraph"
+"}" = "goto_next_paragraph"
+ret = ["move_line_down", "goto_line_start"]
+C-k = ":format"
+C-j = ":write"
+
+[keys.normal.g]
+q = ":reflow"
