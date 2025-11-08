@@ -36,29 +36,16 @@ if [[ ${#GPG_TTY} -eq 0 ]]; then
   export GPG_TTY=$(tty)
 fi
 
-# xdg user
-export XDG_DESKTOP_DIR=$HOME
-export XDG_DOWNLOAD_DIR=/tmp/download
-export XDG_TEMPLATES_DIR=$HOME
-export XDG_PUBLICSHARE_DIR=/tmp/download
-export XDG_DOCUMENTS_DIR=$HOME/document
-export XDG_MUSIC_DIR=$HOME/music
-export XDG_PICTURES_DIR=$HOME/pics
-export XDG_VIDEOS_DIR=$HOME/video
-
 # app defaults
 export GRIM_DEFAULT_DIR=/tmp
-export XZ_DEFAULTS='--threads=32 --memlimit=64g'
-export CC=clang
-export CXX=$CC
-export CFLAGS='-march=native -pipe'
-export LDFLAGS='-fuse-ld=mold'
 export WIREPLUMBER_DEBUG=0
 export LESSHISTFILE='-'
 export ESCDELAY=0 # man ncurses.3
 export TERM=xterm-256color
 export NNN_SEL="$XDG_RUNTIME_DIR/nnn.sel"
 export NNN_FIFO="$XDG_RUNTIME_DIR/nnn.fifo"
+export GPG_TTY="$(tty)"
+export NNN_PLUG='m:-!mpv "$nnn"'
 
 # general purpose
 mkdir -p /tmp/download
@@ -86,29 +73,31 @@ alias gp='git push'
 
 # login manager
 if [ "$(tty)" = '/dev/tty1' ]; then
-  # qt https://github.com/swaywm/sway/wiki#my-favorite-application-isnt-displayed-right-how-can-i-fix-this
+  # qt
   export QT_QPA_PLATFORM=wayland
   export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-  
-  # java https://github.com/swaywm/sway/wiki#issues-with-java-applications
+
+  # java
   export _JAVA_AWT_WM_NONREPARENTING=1
 
   # mpv uses vulkan video decoding
   # https://gitlab.freedesktop.org/mesa/mesa/-/raw/main/docs/envvars.rst
-  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,transfer_queue,video_decode,video_encode,transfer_queue
+  export RADV_PERFTEST=bolist,cswave32,pswave32,gewave32,nircache,sam,rtwave32,rtwave64,transfer_queue,video_decode,video_encode
 
   # wine
   export WINEPREFIX=/tmp/gaming/wine
-  #export WINEFSYNC=1 replaced by ntsync
   export WINEDLLOVERRIDES=winemenubuilder.exe=d
   export WINEDEBUG='-all'
   export DXVK_LOG_LEVEL=none
   export VKD3D_DEBUG=none
 
+  # some linux native unity games needs this (eg. Hollow Knight Silksong)
+  export SDL_VIDEODRIVER=wayland
+
   # https://gitlab.freedesktop.org/wlroots/wlroots/-/raw/master/docs/env_vars.md
   export WLR_RENDERER=vulkan
 
   # dbus is required for pipewire
-  #echo "mksh: starting sway" >>/tmp/sway.log
-  exec dbus-launch --exit-with-session sway #-d >/tmp/sway.log 2>&1
+  #echo "[$(date '+%Y-%m-%d %H:%M:%S')] mksh: starting sway" >> $XDG_RUNTIME_DIR/sway.log
+  exec dbus-launch --exit-with-session sway #--debug >> $XDG_RUNTIME_DIR/sway.log 2>&1
 fi
