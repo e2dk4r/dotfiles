@@ -4,9 +4,9 @@ export WINEPREFIX=/tmp/gaming/wine
 export WINEHOME="$WINEPREFIX/drive_c/users/$USER"
 export DOSDEVICE_Z="${WINEPREFIX%/*}"
 
-wineboot
 # wineboot doesn't wait for prefix to be ready
-wineserver -w
+wineboot --init
+wineserver --wait
 
 # dont access whole root system
 rm -f "$WINEPREFIX/dosdevices/z:"
