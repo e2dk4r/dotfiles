@@ -1,0 +1,46 @@
+#!/bin/python
+import socket
+import urllib.request
+import os
+import sys
+
+if __name__ == "__main__":
+    # https://github.com/hagezi/dns-blocklists
+    url = 'https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/domains/ultimate.txt'
+    dest = '/etc/unbound/unbound.conf.d/hagezi.conf'
+
+    print(f"Fetching data from {url}")
+    
+    # timeout in seconds
+    socket.setdefaulttimeout(5)
+
+    request = urllib.request.Request(
+      url,
+      headers={'User-Agent': 'curl/8.13.0'},
+    )
+
+    buffer = bytes([0] * 8 * (1 << 20)) # allocate 8M
+    with urllib.request.urlopen(request) as response:
+      if response.getcode() != 200:
+        sys.exit(1)
+      if 'text/html' in response.headers.get('Content-Type', ''):
+        sys.exit(1)
+      buffer = response.read()
+
+    domain_count = 0
+
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    with open(dest, 'w', encoding='utf-8') as output:
+      domains = buffer.decode('utf-8').split('\n')
+      for domain in domains:
+        if len(domain) == 0:
+          continue
+        if domain.startswith('#'):
+          continue
+
+        local_zone = f'local-zone: "{domain}." always_nxdomain'
+
+        output.write(f'{local_zone}\n')
+        domain_count += 1
+
+    print(f'{domain_count} domains blocked')
