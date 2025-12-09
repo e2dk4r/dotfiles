@@ -6,6 +6,7 @@ pref("geo.enabled", false);
 pref("browser.safebrowsing.malware.enabled", false);
 pref("browser.safebrowsing.phishing.enabled", false);
 pref("browser.safebrowsing.downloads.enabled", false);
+user_pref("network.IDN_show_punycode", true);
 
 // Use compositor integration
 pref("gfx.webrender.compositor.force-enabled", true);
