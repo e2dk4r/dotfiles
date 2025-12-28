@@ -1,0 +1,39 @@
+[observability]
+# Other values include trace, debug, warn and error
+log-level = "info"
+observation-path = "/var/run/ntpd-rs/observe"
+
+[synchronization]
+single-step-panic-threshold = 1800
+startup-step-panic-threshold = { forward="inf", backward = 10 }
+accumulated-step-panic-threshold = 5
+minimum-agreeing-sources = 2
+
+[[source]]
+mode = "server"
+address = "194.27.222.5" # time.ume.tubitak.gov.tr stratum:1
+
+[[source]]
+mode = "server"
+address = "193.140.100.40" # ntp.ulakbim.gov.tr stratum:2
+
+[[source]]
+mode = "server"
+address = "194.27.128.38" # ntp.istanbul.edu.tr stratum:3
+
+# [[source]]
+# mode = "server"
+# address = "162.159.200.123" # time.cloudflare.com stratum:4
+
+# [[source]]
+# mode = "pool"
+# address = "ntpd-rs.pool.ntp.org"
+# count = 4
+
+#[[source]]
+# mode = "pool"
+# address = "tr.pool.ntp.org" # stratum:+5
+# count = 4
+
+[[server]]
+listen = "0.0.0.0:123"
