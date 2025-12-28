@@ -1,0 +1,8 @@
+# https://openwrt.org/docs/guide-user/network/traffic-shaping/sqm_configuration
+config queue
+  enabled   'no'
+  interface 'pppoe-wan'
+  linklayer 'ethernet'
+  overhead  '34'    # vdsl
+  upload    '5491'  # 05.66 mbps .95, in kbits
+  download  '32339' # 33.25 mbps .95, in kbits

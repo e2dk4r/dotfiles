@@ -1,0 +1,15 @@
+# https://openwrt.org/docs/guide-user/base-system/system_configuration
+config system
+  option hostname       router-a
+  option timezone       GMT0
+  option zonename       UTC
+  option ttylogin       0
+  option log_size       128
+  option urandom_seed   0
+  option compat_version 1.0
+
+config timeserver 'ntp'
+  option enabled       1
+  option enable_server 0
+  list server          <NTP_SERVER_IP>
+

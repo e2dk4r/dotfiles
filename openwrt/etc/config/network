@@ -1,0 +1,49 @@
+# https://openwrt.org/playground/arinc9/networking-basics
+config interface 'loopback'
+  option device 'lo'
+  option proto 'static'
+  list ipaddr '127.0.0.1/8'
+
+config globals 'globals'
+  option dhcp_default_duid '00049169e037b7574a06ad61a6ee26ca9dd3'
+  option ula_prefix 'fdd1:9001:e2fb::/48'
+
+config device
+  option name 'br-lan'
+  option type 'bridge'
+  list ports 'lan2'
+  list ports 'lan3'
+  list ports 'lan4'
+
+config interface 'lan'
+  option device 'br-lan'
+  option proto 'static'
+  list ipaddr '<ROUTER_IP_ADDRESS>'
+  #list ipaddr '192.168.1.1/24'
+  option ip6assign '60'
+
+config device
+  option name 'wan'
+  option macaddr 'cc:d8:43:18:4c:c5'
+
+config interface 'wan'
+  option device   wan
+  option proto    dhcp
+
+#config interface 'wan'
+#  option device   wan
+#  option proto    pppoe
+#  option username '<ISP_USERNAME>'
+#  option password '<ISP_PASSWORD>'
+#  option dns      '<DNS_SERVER_IP>'
+
+config interface 'wan6'
+  option device 'wan'
+  option proto 'dhcpv6'
+
+# https://openwrt.org/docs/guide-user/network/routing/routes_configuration
+#config route 'route_example_1'
+#  option interface 'lan'
+#  option target    '172.16.123.0'
+#  option netmask   '255.255.255.0'
+#  option gateway   '172.16.123.100'
