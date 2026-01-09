@@ -32,6 +32,7 @@ ppp
 ppp-mod-pppoe
 procd-ujail
 uboot-envtools
+uci
 urandom-seed
 urngd
 wpad-basic-wolfssl
@@ -65,11 +66,10 @@ Diff from default:
  logd
  mtd
  netifd
-@@ -23,12 +22,11 @@
- ppp-mod-pppoe
+@@ -24,11 +23,10 @@
  procd-ujail
  uboot-envtools
--uci
+ uci
 -uclient-fetch
  urandom-seed
  urngd
