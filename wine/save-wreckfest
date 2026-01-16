@@ -7,13 +7,16 @@ SAVE_DIR="$HOME/.local/state/gaming"
 SAVE_FILE='wreckfest.tar.zst'
 SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
 
-if [ ! -e "$WINEHOME/AppData/Roaming/Goldberg SteamEmu Saves/228380" ]; then
+if [ ! -e "$WINEHOME/AppData/LocalLow/THQNordic/Wreckfest/goguserdata/wreckfest" ]; then
   echo Wreckfest save file not found
   exit 1
 fi
 
 mkdir -p "$SAVE_DIR"
 
-tar cf - -C "$WINEHOME" 'AppData/Roaming/Goldberg SteamEmu Saves/228380' | zstd -19 > "$SAVE_PATH"
+tar cf - -C "$WINEHOME"                                        \
+  --exclude backup_*/                                          \
+  'AppData/LocalLow/THQNordic/Wreckfest/goguserdata/wreckfest' \
+  | zstd --ultra -22 --long > "$SAVE_PATH"
 
 echo "Wreckfest saves backed into \"$SAVE_PATH\""
