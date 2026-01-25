@@ -1,0 +1,12 @@
+#!/bin/sh
+set -o errexit
+
+. ./wine_config.sh
+
+title='Tactical Breach Wizards'
+BACKUP_FILE='tactical_breach_wizards.tar.zst'
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+tar xf "$BACKUP_PATH" -C "$WINEHOME" 
+echo "$title restored from \"$BACKUP_PATH\""
