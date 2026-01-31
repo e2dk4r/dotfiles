@@ -6,7 +6,6 @@ set -o errexit
 title='No Rest for the Wicked'
 BACKUP_FILE='NoRestForTheWicked.tar.zst'
 SAVE_DIR='AppData/LocalLow/Moon Studios/NoRestForTheWicked'
-CONFIG_DIR='AppData/LocalLow/Moon Studios/NoRestForTheWicked'
 
 if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
   echo "$title save file not found"
@@ -22,7 +21,6 @@ tmpfile=$(mktemp)
 tar cf - -C "$WINEHOME" \
   --exclude backtrace/  \
   "$SAVE_DIR"           \
-  "$CONFIG_DIR"         \
   | zstd --ultra -22 --long > "$tmpfile"
 cp "$tmpfile" "$BACKUP_PATH"
 rm "$tmpfile"
