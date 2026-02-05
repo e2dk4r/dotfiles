@@ -3,17 +3,21 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='detroit_become_human.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='Detroit: Become Human'
+SAVE_DIR='Saved Games/Quantic Dream/Detroit Become Human'
+BACKUP_FILE='detroit_become_human.tar.zst'
 
-if [ ! -e "$WINEHOME/Saved Games/Quantic Dream/Detroit Become Human" ]; then
-  echo Detroit: Become Human save file not found
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
   exit 1
 fi
 
-mkdir -p "$SAVE_DIR"
+mkdir -p "$BACKUP_DIR"
+tar cf - -C "$WINEHOME" \
+  "$SAVE_DIR"           \
+  | zstd --ultra -22 > "$BACKUP_PATH"
 
-tar cf - -C "$WINEHOME" 'Saved Games/Quantic Dream/Detroit Become Human' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
-
-echo "Detroit: Become Human saves backed into \"$SAVE_PATH\""
+echo "$title saves backed into \"$BACKUP_PATH\""

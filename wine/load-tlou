@@ -3,15 +3,16 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='tlou.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='The Last of Us Part I'
+BACKUP_FILE='tlou.tar.zst'
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 
-if [ ! -e "$SAVE_PATH" ]; then
-  echo could not find The Last of Us Part I save file
+if [ ! -e "$BACKUP_PATH" ]; then
+  echo "could not find $title save file"
   exit 1
 fi
 
-tar xf "$SAVE_PATH" -C "$WINEHOME"
+tar xf "$BACKUP_PATH" -C "$WINEHOME"
 
-echo "The Last of Us Part I save file loaded from \"$SAVE_PATH\""
+echo "$title save file loaded from \"$SAVE_PATH\""

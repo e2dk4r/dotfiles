@@ -3,17 +3,24 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='riftapart.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='Ratchet Clank: Rift Apart'
+SAVE_DIR='Documents/Ratchet & Clank - Rift Apart'
+CONFIG_DIR='AppData/Roaming/Insomniac Games/Ratchet & Clank - Rift Apart/'
+BACKUP_FILE='riftapart.tar.zst'
 
-if [ ! -e "$WINEHOME/Documents/Ratchet & Clank - Rift Apart" ]; then
-  echo Ratchet Clank: Rift Apart save file not found
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
   exit 1
 fi
+mkdir -p "$BACKUP_DIR"
+tar cf - -C "$WINEHOME"  \
+  --exclude Screenshots/ \
+  --exclude *.backup*    \
+  "$SAVE_DIR"            \
+  "$CONFIG_DIR"          \
+  | zstd --ultra -22 > "$BACKUP_PATH"
 
-mkdir -p "$SAVE_DIR"
-
-tar cf - -C "$WINEHOME" 'Documents/Ratchet & Clank - Rift Apart/' 'AppData/Roaming/Insomniac Games/Ratchet & Clank - Rift Apart/' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
-
-echo "Ratchet Clank: Rift Apart saves backed into \"$SAVE_PATH\""
+echo "$title saves backed into \"$BACKUP_PATH\""

@@ -3,18 +3,24 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='remnant2.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='Remnant 2'
+SAVE_DIR='Saved Games/Remnant2'
+CONFIG_DIR='AppData/Local/Remnant2'
+BACKUP_FILE='remnant2.tar.zst'
 
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 
-if [ ! -e "$WINEHOME/Saved Games/Remnant2" ]; then
-  echo Remnant 2 save file not found
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
   exit 1
 fi
+mkdir -p "$BACKUP_DIR"
+tar cf - -C "$WINEHOME"        \
+  --exclude CrashReportClient/ \
+  --exclude *.bak*             \
+  "$SAVE_DIR"                  \
+  "$CONFIG_DIR"                \
+  | zstd --ultra -22 > "$BACKUP_PATH"
 
-mkdir -p "$SAVE_DIR"
-
-tar cf - -C "$WINEHOME" --exclude CrashReportClient.ini 'Saved Games/Remnant2' 'AppData/Local/Remnant2' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
-
-echo "Remnant 2 saves backed into \"$SAVE_PATH\""
+echo "$title saves backed into \"$BACKUP_PATH\""

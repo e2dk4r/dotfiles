@@ -3,25 +3,29 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='tlou-ii.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='The Last of Us Part II'
+SAVE_DIR='Documents/The Last of Us Part II'
+CONFIG_DIR='AppData/Roaming/Naughty Dog/The Last of Us Part II'
+BACKUP_FILE='tlou-ii.tar.zst'
 
-if [ ! -e "$WINEHOME/Documents/The Last of Us Part II" ]; then
-  echo The Last of Us Part II save file not found
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
+
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
   exit 1
 fi
+mkdir -p "$BACKUP_DIR"
+tar cf - -C "$WINEHOME"  \
+  --exclude *.log        \
+  --exclude *.mdmp       \
+  --exclude *-backup     \
+  --exclude reports/     \
+  --exclude attachments/ \
+  --exclude Screenshots/ \
+  --exclude backup/      \
+  "$SAVE_DIR"            \
+  "$CONFIG_DIR"          \
+  | zstd --ultra -22 > "$BACKUP_PATH"
 
-mkdir -p "$SAVE_DIR"
-
-tar cf - -C "$WINEHOME"                               \
-  --exclude *.log                                     \
-  --exclude reports/*                                 \
-  --exclude attachments/*                             \
-  --exclude backup/                                   \
-  --exclude *-backup                                  \
-  'Documents/The Last of Us Part II'                  \
-  'AppData/Roaming/Naughty Dog/The Last of Us Part II'  \
-  'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
-
-echo "The Last of Us Part II saves backed to \"$SAVE_PATH\""
+echo "$title saves backed into \"$BACKUP_PATH\""

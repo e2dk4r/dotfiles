@@ -3,18 +3,20 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='eldenring.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='Elden Ring'
+SAVE_DIR='AppData/Roaming/EldenRing'
+BACKUP_FILE='eldenring.tar.zst'
 
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 
-if [ ! -e "$WINEHOME/AppData/Roaming/EldenRing" ]; then
-  echo Elden Ring save file not found
+if [ ! -e "$WINEHOME/$SAVE_DIR" ]; then
+  echo "$title save file not found"
   exit 1
 fi
+mkdir -p "$BACKUP_DIR"
+tar cf - -C "$WINEHOME" \
+  "$SAVE_DIR"           \
+  | zstd --ultra -22 > "$BACKUP_PATH"
 
-mkdir -p "$SAVE_DIR"
-
-tar cf - -C "$WINEHOME" 'AppData/Roaming/EldenRing' 'AppData/Roaming/Goldberg SteamEmu Saves/settings/user_steam_id.txt' | zstd -19 > "$SAVE_PATH"
-
-echo "Elden Ring saves backed into \"$SAVE_PATH\""
+echo "$title saves backed into \"$BACKUP_PATH\""

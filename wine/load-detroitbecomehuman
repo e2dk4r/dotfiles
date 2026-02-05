@@ -3,15 +3,16 @@ set -o errexit
 
 . ./wine_config.sh
 
-SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='detroit_become_human.tar.zst'
-SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
+title='Detroit: Become Human'
+BACKUP_FILE='detroit_become_human.tar.zst'
+BACKUP_DIR="$HOME/.local/state/gaming"
+BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 
-if [ ! -e "$SAVE_PATH" ]; then
-  echo could not find Detroit: Become Human save file
+if [ ! -e "$BACKUP_PATH" ]; then
+  echo "could not find $title save file"
   exit 1
 fi
 
-tar xf "$SAVE_PATH" -C "$WINEHOME"
+tar xf "$BACKUP_PATH" -C "$WINEHOME"
 
-echo "Detroit: Become Human save file loaded from \"$SAVE_PATH\""
+echo "$title save file loaded from \"$SAVE_PATH\""
