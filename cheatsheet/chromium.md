@@ -8,6 +8,7 @@ https://chromium.woolyss.com/
 ```
 ./chrome                                                                                              \
 --user-data-dir=userdata                                                                              \
+'--js-flags=--jitless'                                                                                \
 --enable-features=VaapiVideoDecoder,VaapiIgnoreDriverChecks,Vulkan,DefaultANGLEVulkan,VulkanFromANGLE \
 --disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled
 ```
