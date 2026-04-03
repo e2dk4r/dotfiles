@@ -18,8 +18,12 @@ BACKUP_PATH="$BACKUP_DIR/$BACKUP_FILE"
 mkdir -p "$BACKUP_DIR"
 
 tmpfile=$(mktemp)
-tar cf - -C "$WINEHOME" \
-  "$SAVE_DIR"           \
+tar cf - -C "$WINEHOME"      \
+  --exclude Gamedumps/       \
+  --exclude Old_Gamedumps/   \
+  --exclude Save.temp.bin    \
+  --exclude *.savebackup.bin \
+  "$SAVE_DIR"                \
   | zstd --ultra -22 --long > "$tmpfile"
 cp "$tmpfile" "$BACKUP_PATH"
 rm "$tmpfile"
