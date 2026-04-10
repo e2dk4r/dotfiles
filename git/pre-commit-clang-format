@@ -4,12 +4,16 @@
 exec 1>&2
 
 error=0
-for file in $(git diff --cached --name-only --diff-filter=AMR|rg '\.(c|h)$'); do
-  git show ":$file" | clang-format --assume-filename="$file" -Werror --dry-run
+tmp=$(mktemp)
+git diff --cached --name-only --diff-filter=AMR | rg '\.(c|h)$' > "$tmp"
+
+while IFS= read -r file; do
+  git show ":${file}" | clang-format --assume-filename="${file}" -Werror --dry-run
   if [ $? -ne 0 ]; then
     error=1
   fi
-done
+done < "$tmp"
+rm "$tmp"
 
 if [ $error -ne 0 ]; then
   exit 1
