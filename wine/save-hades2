@@ -4,7 +4,7 @@ set -o errexit
 . ./wine_config.sh
 
 SAVE_DIR="$HOME/.local/state/gaming"
-SAVE_FILE='hades_ii.tar.zst'
+SAVE_FILE='hades2.tar.zst'
 SAVE_PATH="$SAVE_DIR/$SAVE_FILE"
 
 if [ ! -e "$WINEHOME/Saved Games/Hades II" ]; then
