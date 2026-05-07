@@ -15,4 +15,4 @@ fi
 
 tar xf "$BACKUP_PATH" -C "$WINEHOME"
 
-echo "$title save file loaded from \"$SAVE_PATH\""
+echo "$title restored from \"$BACKUP_PATH\""
